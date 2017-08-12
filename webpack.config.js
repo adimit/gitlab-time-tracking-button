@@ -90,7 +90,7 @@ module.exports = {
       },
       {
         /** HTML files are included in the JS bundle, and not extracted. */
-        test: /\.html$/,
+        test: /assets.*\.html$/,
         loader: "html-loader"
       },
       {
