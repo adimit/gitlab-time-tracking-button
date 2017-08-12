@@ -1,0 +1,5 @@
+/addon
+/node_modules
+*.log
+/coverage
+/dist
