@@ -29,15 +29,6 @@
     ]
   },
 
-  "content_scripts": [
-    {
-      "js": [
-        "index.js"
-      ],
-      "run_at": "document_idle"
-    }
-  ],
-
   "options_ui": {
     "page": "options.html"
   },

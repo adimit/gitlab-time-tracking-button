@@ -6,7 +6,6 @@
  * It produces three bundles:
  *
  * - /background.js
- * - /index.js
  * - /options.{js,html}
  *
  * It also copies the necessary HTML files and icons.
@@ -30,14 +29,7 @@ module.exports = {
 
     /** options script and its assets, used for addon options.
         The HTML is extracted with the extract text plugin */
-    'options': glob.sync(path.resolve(source_path, "options.*")),
-
-    /** content scripts, emitted as a single bundle, including CSS */
-    'index': [
-      path.resolve(source_path, "index.js")
-    ].concat(
-      glob.sync(path.resolve(source_path, "css/*.scss"))
-    )
+    'options': glob.sync(path.resolve(source_path, "options.*"))
   },
   devtool: 'source-map',
   output: {
