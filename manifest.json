@@ -45,6 +45,12 @@
   "permissions": [
     "tabs",
     "storage",
-    "notifications"
+    "notifications",
+    "webRequest",
+    "https://gitlab.com/*"
+  ],
+
+  "optional_permissions": [
+    "https://*"
   ]
 }
