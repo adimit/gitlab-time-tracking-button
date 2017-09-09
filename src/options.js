@@ -31,6 +31,8 @@ class Options {
     const htmlList = document.createElement('ul');
     this.listContainer.append(htmlList);
 
+    const options = this;
+
     Object.entries(gitlabs).forEach(([gitlab, token]) => {
       const listEntry = document.createElement('li');
 
@@ -43,7 +45,7 @@ class Options {
       const removeSpan = document.createElement('div');
       removeSpan.classList.add('remove-instance');
 
-      gitlabSpan.textContent = gitlab;
+      gitlabSpan.textContent = options.getHostName(gitlab);
       tokenSpan.textContent = token;
 
       removeSpan.textContent = '×';
@@ -86,6 +88,11 @@ class Options {
     }
   }
 
+  getHostName(pseudoUrl) {
+    const re = /^(https?:\/\/)?([^/]+)(\/)?$/;
+    return pseudoUrl.replace(re, '$2');
+  }
+
   resetErrors() {
     this.newPermissionBox.classList.remove('error');
     this.newTokenBox.classList.remove('error');
@@ -96,23 +103,23 @@ class Options {
     const options = this;
     const eventFunction = async () => {
       options.resetErrors();
-      const newPermission = this.newPermissionBox.value;
-      const newToken = this.newTokenBox.value;
+      const newPermission = options.getHostName(options.newPermissionBox.value);
+      const newToken = options.newTokenBox.value;
 
       if (!newPermission) {
-        options.showError('Please specify a host', this.newPermissionBox);
+        options.showError('Please specify a host', options.newPermissionBox);
         return;
       }
 
       if (!newToken) {
-        options.showError('Please specify a key', this.newTokenBox);
+        options.showError('Please specify a key', options.newTokenBox);
         return;
       }
 
       const url = `https://${newPermission}/`;
 
       try {
-        await this.Chrome.addPermission(url);
+        await options.Chrome.addPermission(url);
         await options.addGitlab(url, newToken);
         await options.displayGitlabs();
       } catch (e) {
