@@ -30,8 +30,7 @@
     "tabs",
     "storage",
     "notifications",
-    "webRequest",
-    "https://gitlab.com/*"
+    "webRequest"
   ],
 
   "optional_permissions": [
