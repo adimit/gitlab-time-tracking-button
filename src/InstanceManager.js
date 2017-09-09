@@ -1,7 +1,6 @@
 export default class InstanceManager {
-  constructor(myChrome, tabListener) {
+  constructor(myChrome) {
     this.chrome = myChrome;
-    this.tabListener = tabListener;
   }
 
   updateStorage(changes, namespace) {
