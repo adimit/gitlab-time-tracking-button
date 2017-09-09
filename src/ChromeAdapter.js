@@ -19,6 +19,15 @@ export default class ChromeAdapter {
     });
   }
 
+  static isPermissionEnabled(url) {
+    return new Promise((resolve) => {
+      chrome.permissions.contains(
+        { origins: [url] },
+        result => resolve(Boolean(result)),
+      );
+    });
+  }
+
   /**
    * Wrapper around chrome.storage.local.get, returns a Promise.
    * On failure (keys not present), promise is rejected
