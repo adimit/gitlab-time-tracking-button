@@ -18,7 +18,9 @@ class Options {
   }
 
   async removeGitlab(host) {
-
+    const allGitlabs = await this.getAllGitlabs();
+    delete allGitlabs[host];
+    await this.Chrome.set({ gitlabs: allGitlabs });
   }
 
   async displayGitlabs() {
@@ -51,7 +53,9 @@ class Options {
   addRemoveEventListener(element, url) {
     const options = this;
     element.addEventListener('click', async () => {
+      await options.Chrome.removePermission(url);
       await options.removeGitlab(url);
+      await options.displayGitlabs();
     });
   }
 

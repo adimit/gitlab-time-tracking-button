@@ -22,6 +22,21 @@ export default class ChromeAdapter {
     }
   }
 
+  removePermission(url) {
+    return new Promise((resolve, reject) => {
+      this.chrome.permissions.remove(
+        { origins: [url] },
+        (removed) => {
+          if (removed) {
+            resolve();
+          } else {
+            reject(`Permission to ${url} could not be removed (${removed})`);
+          }
+        },
+      );
+    });
+  }
+
   uncheckedAddPermission(url) {
     return new Promise((resolve, reject) => {
       this.chrome.permissions.request({
