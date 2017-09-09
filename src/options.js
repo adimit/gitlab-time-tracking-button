@@ -38,12 +38,19 @@ class Options {
       tokenSpan.textContent = token;
 
       removeSpan.textContent = '×';
+      this.addRemoveEventListener(removeSpan, gitlab);
 
       listEntry.append(gitlabSpan);
       listEntry.append(tokenSpan);
       listEntry.append(removeSpan);
 
       htmlList.append(listEntry);
+    });
+  }
+
+  addRemoveEventListener(element, url) {
+    element.addEventListener('click', async () => {
+      console.log("Removing", url);
     });
   }
 
