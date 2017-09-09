@@ -115,6 +115,11 @@ class Options {
     };
 
     document.querySelector('#add-permission').addEventListener('click', eventFunction);
+    document.querySelector('#new-api-token').addEventListener('keypress', async (event) => {
+      if (event.key === 'Enter') {
+        await eventFunction();
+      }
+    });
   }
 
   start() {
