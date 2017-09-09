@@ -49,8 +49,9 @@ class Options {
   }
 
   addRemoveEventListener(element, url) {
+    const options = this;
     element.addEventListener('click', async () => {
-      console.log("Removing", url);
+      await options.removeGitlab(url);
     });
   }
 
@@ -105,5 +106,7 @@ class Options {
   }
 }
 
-new Options(ChromeAdapter).start();
+const isFirefox = navigator.userAgent.indexOf('Chrome') === -1;
+const myChrome = new ChromeAdapter(chrome, isFirefox);
+new Options(myChrome).start();
 

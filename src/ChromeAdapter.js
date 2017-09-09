@@ -1,13 +1,32 @@
 export default class ChromeAdapter {
-  static getAllPermissions() {
+  constructor(myChrome, isFirefox) {
+    this.isFirefox = isFirefox;
+    this.chrome = myChrome;
+  }
+
+  getAllPermissions() {
     return new Promise((resolve) => {
-      chrome.permissions.getAll(results => resolve(results));
+      this.chrome.permissions.getAll(results => resolve(results));
     });
   }
 
-  static addPermission(url) {
+  async addPermission(url) {
+    if (this.isFirefox) {
+      return this.uncheckedAddPermission(url);
+    }
+
+    const that = this;
+    return that.isPermissionEnabled(url).then(
+      (isEnabled) => {
+        if (!isEnabled) {
+          that.uncheckedAddPermission(url);
+        }
+      });
+  }
+
+  uncheckedAddPermission(url) {
     return new Promise((resolve, reject) => {
-      chrome.permissions.request({
+      this.chrome.permissions.request({
         origins: [url],
       }, (granted) => {
         if (granted) {
@@ -19,9 +38,9 @@ export default class ChromeAdapter {
     });
   }
 
-  static isPermissionEnabled(url) {
+  isPermissionEnabled(url) {
     return new Promise((resolve) => {
-      chrome.permissions.contains(
+      this.chrome.permissions.contains(
         { origins: [url] },
         result => resolve(Boolean(result)),
       );
@@ -36,10 +55,10 @@ export default class ChromeAdapter {
    *
    * @return {Promise} A promise with the result fetched from storage local
    */
-  static get(items) {
+  get(items) {
     return new Promise((resolve, reject) => {
-      chrome.storage.local.get(items, (result) => {
-        const error = chrome.runtime.lastError;
+      this.chrome.storage.local.get(items, (result) => {
+        const error = this.chrome.runtime.lastError;
         if (error) {
           reject(Error(`Local storage failure: ${error.message}`));
         } else {
@@ -56,10 +75,10 @@ export default class ChromeAdapter {
    *
    * @return {Promise} A promise with an empty value
    */
-  static set(items) {
+  set(items) {
     return new Promise((resolve, reject) => {
-      chrome.storage.local.set(items, () => {
-        const error = chrome.runtime.lastError;
+      this.chrome.storage.local.set(items, () => {
+        const error = this.chrome.runtime.lastError;
         if (error) {
           reject(Error(`Local storage failure: ${error.message}`));
         } else {
