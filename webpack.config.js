@@ -18,6 +18,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const HtmlTextPlugin = new ExtractTextPlugin("[name].html");
+const CssTextPlugin = new ExtractTextPlugin("[name].css");
 
 const addon = path.resolve(__dirname, "addon");
 const source_path = path.resolve(__dirname, "./src");
@@ -48,7 +49,8 @@ module.exports = {
         to:   path.resolve(addon, "icons")
       }
     ]),
-    HtmlTextPlugin
+    HtmlTextPlugin,
+    CssTextPlugin
   ],
   resolve: {
     /** This hack is here because sinon uses 'require' in buggy ways */
@@ -74,12 +76,12 @@ module.exports = {
         }
       },
       {
-        test: /\.css$/,
+        test: /assets.*\.css$/,
         loader: "css-loader"
       },
       {
         /** SCSS files are first run through the SCSS compiler, and then processd just like CSS files */
-        test: /\.scss$/,
+        test: /assets.*\.scss$/,
         loader: "css-loader!sass-loader"
       },
       {
@@ -87,6 +89,11 @@ module.exports = {
             to be present for the webextensions options mechanism to work.*/
         test: /.*(options).*\.html$/,
         loader: HtmlTextPlugin.extract({use: "raw-loader"})
+      },
+      {
+        /** The css file for options is also extracted separately */
+        test: /.*(options).*\.scss$/,
+        loader: CssTextPlugin.extract({use: "css-loader!sass-loader"})
       },
       {
         /** HTML files are included in the JS bundle, and not extracted. */
