@@ -7,6 +7,7 @@ class Options {
     this.newPermissionBox = document.querySelector('#new-permission');
     this.newTokenBox = document.querySelector('#new-api-token');
     this.listContainer = document.querySelector('#enabled-instances-container');
+    this.errorContainer = document.querySelector('#error-container');
   }
 
   async addGitlab(newHost, newToken) {
@@ -71,22 +72,32 @@ class Options {
     }
   }
 
+  showError(message, element) {
+    this.errorContainer.textContent = message;
+    if (element) {
+      element.classList.add('error');
+    }
+  }
+
+  resetErrors() {
+    this.newPermissionBox.classList.remove('error');
+    this.newTokenBox.classList.remove('error');
+  }
+
   addEventListeners() {
     const options = this;
     document.querySelector('#add-permission').addEventListener('click', async () => {
-      this.newPermissionBox.classList.remove('error');
-      this.newTokenBox.classList.remove('error');
-
+      options.resetErrors();
       const newPermission = this.newPermissionBox.value;
       const newToken = this.newTokenBox.value;
 
       if (!newPermission) {
-        this.newPermissionBox.classList.add('error');
+        options.showError('Please specify a host', this.newPermissionBox);
         return;
       }
 
       if (!newToken) {
-        this.newTokenBox.classList.add('error');
+        options.showError('Please specify a key', this.newTokenBox);
         return;
       }
 
@@ -97,7 +108,7 @@ class Options {
         await options.addGitlab(url, newToken);
         await options.displayGitlabs();
       } catch (e) {
-        console.error(e);
+        options.showError(`Error adding permission: ${e.message}`);
       }
     });
   }
