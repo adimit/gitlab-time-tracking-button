@@ -74,6 +74,7 @@ class Options {
 
   showError(message, element) {
     this.errorContainer.textContent = message;
+    this.errorContainer.classList.remove('invisible');
     if (element) {
       element.classList.add('error');
     }
@@ -82,6 +83,7 @@ class Options {
   resetErrors() {
     this.newPermissionBox.classList.remove('error');
     this.newTokenBox.classList.remove('error');
+    this.errorContainer.classList.add('invisible');
   }
 
   addEventListeners() {

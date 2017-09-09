@@ -1,3 +1,28 @@
+$red: red;
+$error: $red;
+
+@mixin bubble-gum() {
+  border-radius: 3px;
+  padding: 7px;
+}
+
+input {
+  @include bubble-gum();
+  border: 1px solid grey;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+#error-container {
+  color: white;
+  background-color: $red;
+  font-weight: bold;
+  @include bubble-gum();
+}
+
 .error {
-  border: 1px solid red;
+  border-color: $red;
+  color: $red;
 }
