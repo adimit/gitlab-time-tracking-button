@@ -35,8 +35,6 @@ class Options {
     const htmlList = document.createElement('ul');
     this.listContainer.append(htmlList);
 
-    const options = this;
-
     Object.entries(gitlabs).forEach(([gitlab, token]) => {
       const listEntry = document.createElement('li');
 
