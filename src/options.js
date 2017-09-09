@@ -1,5 +1,15 @@
 import ChromeAdapter from './ChromeAdapter';
 
+/**
+ * Use a regular expression to extract the host name from something that may or
+ * may not be a URI.
+ *
+ * @param {string} pseudoUrl A string that may start with 'https?://' and may
+ * end with '/'.
+ *
+ * @return {string} The part between the 'https?://' and '/' or the same string,
+ * if neither is present.
+ */
 const getHostName = (pseudoUrl) => {
   const re = /^(https?:\/\/)?([^/]+)(\/)?$/;
   return pseudoUrl.replace(re, '$2');
