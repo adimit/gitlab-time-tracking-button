@@ -85,7 +85,7 @@ class Options {
         return;
       }
 
-      if (!newToken || false) {
+      if (!newToken) {
         this.newTokenBox.classList.add('error');
         return;
       }
