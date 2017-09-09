@@ -88,7 +88,7 @@ class Options {
 
   addEventListeners() {
     const options = this;
-    document.querySelector('#add-permission').addEventListener('click', async () => {
+    const eventFunction = async () => {
       options.resetErrors();
       const newPermission = this.newPermissionBox.value;
       const newToken = this.newTokenBox.value;
@@ -112,7 +112,9 @@ class Options {
       } catch (e) {
         options.showError(`Error adding permission: ${e.message}`);
       }
-    });
+    };
+
+    document.querySelector('#add-permission').addEventListener('click', eventFunction);
   }
 
   start() {
