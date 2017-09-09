@@ -1,5 +1,10 @@
 import ChromeAdapter from './ChromeAdapter';
 
+const getHostName = (pseudoUrl) => {
+  const re = /^(https?:\/\/)?([^/]+)(\/)?$/;
+  return pseudoUrl.replace(re, '$2');
+};
+
 class Options {
   constructor(Chrome) {
     this.Chrome = Chrome;
@@ -44,7 +49,7 @@ class Options {
       const removeSpan = document.createElement('div');
       removeSpan.classList.add('remove-instance');
 
-      gitlabSpan.textContent = options.getHostName(gitlab);
+      gitlabSpan.textContent = getHostName(gitlab);
       tokenSpan.textContent = token;
 
       removeSpan.textContent = '×';
@@ -87,11 +92,6 @@ class Options {
     }
   }
 
-  getHostName(pseudoUrl) {
-    const re = /^(https?:\/\/)?([^/]+)(\/)?$/;
-    return pseudoUrl.replace(re, '$2');
-  }
-
   resetErrors() {
     this.newPermissionBox.classList.remove('error');
     this.newTokenBox.classList.remove('error');
@@ -102,7 +102,7 @@ class Options {
     const options = this;
     const eventFunction = async () => {
       options.resetErrors();
-      const newPermission = options.getHostName(options.newPermissionBox.value);
+      const newPermission = getHostName(options.newPermissionBox.value);
       const newToken = options.newTokenBox.value;
 
       if (!newPermission) {
