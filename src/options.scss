@@ -6,11 +6,6 @@ $error: $red;
   padding: 7px;
 }
 
-input {
-  @include bubble-gum();
-  border: 1px solid grey;
-}
-
 .invisible {
   visibility: hidden;
 }
@@ -20,9 +15,40 @@ input {
   background-color: $red;
   font-weight: bold;
   @include bubble-gum();
+  margin-left: 2px;
+  margin-right: 2px;
+  margin-bottom: 10px;
 }
 
 .error {
   border-color: $red;
   color: $red;
+}
+
+#add-permission-container {
+  display: flex;
+
+  input {
+    @include bubble-gum();
+    border: 1px solid grey;
+    margin-left: 2px;
+    margin-right: 2px;
+  }
+
+  button {
+    margin-left: 2px;
+    margin-right: 2px;
+  }
+
+  #new-permission {
+    flex: 1 1 45%;
+  }
+
+  #new-api-token {
+    flex: 1 2 45%;
+  }
+
+  #add-permission {
+    flex: 1 3 10%;
+  }
 }
