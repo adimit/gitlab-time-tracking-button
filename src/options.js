@@ -33,9 +33,15 @@ class Options {
 
     Object.entries(gitlabs).forEach(([gitlab, token]) => {
       const listEntry = document.createElement('li');
-      const gitlabSpan = document.createElement('span');
-      const tokenSpan = document.createElement('span');
-      const removeSpan = document.createElement('span');
+
+      const gitlabSpan = document.createElement('div');
+      gitlabSpan.classList.add('instance-name');
+
+      const tokenSpan = document.createElement('div');
+      tokenSpan.classList.add('token-value');
+
+      const removeSpan = document.createElement('div');
+      removeSpan.classList.add('remove-instance');
 
       gitlabSpan.textContent = gitlab;
       tokenSpan.textContent = token;

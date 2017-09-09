@@ -3,7 +3,6 @@ $error: $red;
 
 @mixin bubble-gum() {
   border-radius: 3px;
-  padding: 7px;
 }
 
 .invisible {
@@ -15,6 +14,8 @@ $error: $red;
   background-color: $red;
   font-weight: bold;
   @include bubble-gum();
+
+  padding: 7px;
   margin-left: 2px;
   margin-right: 2px;
   margin-bottom: 10px;
@@ -30,6 +31,7 @@ $error: $red;
 
   input {
     @include bubble-gum();
+    padding: 7px;
     border: 1px solid grey;
     margin-left: 2px;
     margin-right: 2px;
@@ -50,5 +52,55 @@ $error: $red;
 
   #add-permission {
     flex: 1 3 10%;
+  }
+}
+
+#enabled-instances-container {
+
+  ul {
+    list-style-type: none;
+    padding: 0px;
+  }
+
+  li {
+    &:hover {
+      background: #DDD;
+    }
+
+    @include bubble-gum();
+    margin-right: 2px;
+    margin-left: 2px;
+    display: flex;
+
+    @mixin padded-item() {
+      padding-top: 8px;
+      padding-bottom: 7px;
+    }
+
+    .instance-name {
+      @include padded-item();
+      flex: 1 1 45%;
+      padding-left: 10px;
+    }
+
+    .token-value {
+      @include padded-item();
+      flex: 1 2 45%;
+      padding-left: 10px;
+    }
+
+    .remove-instance {
+      flex: 1 2 10%;
+      font-weight: bold;
+      @include bubble-gum();
+      text-align: center;
+      cursor: pointer;
+      @include padded-item();
+
+      &:hover {
+        color: white;
+        background-color: $red;
+      }
+    }
   }
 }
