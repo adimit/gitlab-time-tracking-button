@@ -1,5 +1,4 @@
 import ChromeAdapter from './ChromeAdapter';
-import './options.scss';
 
 class Options {
   constructor(Chrome) {
