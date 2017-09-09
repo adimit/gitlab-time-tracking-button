@@ -13,7 +13,7 @@ const getHostName = (pseudoUrl) => {
   return pseudoUrl.replace(re, '$2');
 };
 
-export default class Options {
+export default class AddonOptions {
   constructor(Chrome) {
     this.Chrome = Chrome;
     this.newPermissionBox = document.querySelector('#new-permission');

@@ -1,5 +1,5 @@
 import ChromeAdapter from './ChromeAdapter';
-import Options from './Options';
+import AddonOptions from './AddonOptions';
 
 const myChrome = new ChromeAdapter(chrome);
-new Options(myChrome).start();
+new AddonOptions(myChrome).start();
