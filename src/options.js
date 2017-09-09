@@ -90,13 +90,11 @@ class Options {
 
       try {
         await this.Chrome.addPermission(url);
+        await options.addGitlab(url, newToken);
+        await options.displayGitlabs();
       } catch (e) {
         console.error(e);
-        return;
       }
-
-      await options.addGitlab(url, newToken);
-      await options.displayGitlabs();
     });
   }
 
