@@ -87,6 +87,17 @@ $error: $red;
       @include padded-item();
       flex: 1 2 45%;
       padding-left: 10px;
+      visibility: hidden;
+
+      &:hover {
+        visibility: visible;
+      }
+
+      &::before {
+        content: "👁 ";
+        visibility: visible;
+        opacity: 0.5!important;
+      }
     }
 
     .remove-instance {
