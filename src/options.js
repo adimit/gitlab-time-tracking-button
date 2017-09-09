@@ -6,6 +6,7 @@ class Options {
     this.Chrome = Chrome;
     this.newPermissionBox = document.querySelector('#new-permission');
     this.newTokenBox = document.querySelector('#new-api-token');
+    this.listContainer = document.querySelector('#enabled-instances-container');
   }
 
   async addGitlab(newHost, newToken) {
@@ -23,6 +24,27 @@ class Options {
   async displayGitlabs() {
     const gitlabs = await this.getAllGitlabs();
 
+    this.listContainer.innerHTML = '';
+    const htmlList = document.createElement('ul');
+    this.listContainer.append(htmlList);
+
+    Object.entries(gitlabs).forEach(([gitlab, token]) => {
+      const listEntry = document.createElement('li');
+      const gitlabSpan = document.createElement('span');
+      const tokenSpan = document.createElement('span');
+      const removeSpan = document.createElement('span');
+
+      gitlabSpan.textContent = gitlab;
+      tokenSpan.textContent = token;
+
+      removeSpan.textContent = '×';
+
+      listEntry.append(gitlabSpan);
+      listEntry.append(tokenSpan);
+      listEntry.append(removeSpan);
+
+      htmlList.append(listEntry);
+    });
   }
 
   async getAllGitlabs() {
@@ -65,8 +87,8 @@ class Options {
         return;
       }
 
-      options.addGitlab(url, newToken);
-      options.displayGitlabs();
+      await options.addGitlab(url, newToken);
+      await options.displayGitlabs();
     });
   }
 
