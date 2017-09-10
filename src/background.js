@@ -6,5 +6,5 @@ const Chrome = new ChromeAdapter(chrome);
 const instanceManager = new InstanceManager(Chrome);
 const tabListener = new TabListener(Chrome, instanceManager);
 
-chrome.storage.onChanged.addListener(instanceManager.updateStorage);
-chrome.tabs.onUpdated.addListener(tabListener.updateTabs);
+chrome.storage.onChanged.addListener(changes => instanceManager.updateStorage(changes));
+chrome.tabs.onUpdated.addListener((tabid, changeInfo, data) => tabListener.updateTabs(data));
