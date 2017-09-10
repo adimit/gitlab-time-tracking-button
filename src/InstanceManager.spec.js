@@ -14,7 +14,7 @@ describe('InstanceManager', function () {
       // fire listener function
       const changes = {
         gitlabs: {
-          newValue: { 'https://example.com': 'foo' },
+          newValue: { 'https://example.com:3201': 'foo' },
           oldValue: undefined,
         },
       };
@@ -22,7 +22,7 @@ describe('InstanceManager', function () {
       instanceManager.updateStorage(changes, 'local');
 
       // check with isRegisteredInstance if the new instance is recognised
-      expect(instanceManager.isRegisteredInstance('https://example.com/foo/bar')).to.be.true;
+      expect(instanceManager.isRegisteredInstance('https://example.com:3201/foo/bar')).to.be.true;
     });
 
     it('fires deletion events for registered handlers when an instance vanishes', function () {
