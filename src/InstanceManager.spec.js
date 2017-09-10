@@ -22,7 +22,6 @@ describe('InstanceManager', function () {
       instanceManager.updateStorage(changes, 'local');
 
       // check with isRegisteredInstance if the new instance is recognised
-
       expect(instanceManager.isRegisteredInstance('https://example.com/foo/bar')).to.be.true;
     });
 
@@ -68,8 +67,8 @@ describe('InstanceManager', function () {
       );
 
       // check that both spies got called
-      assert(f1.called);
-      assert(f2.called);
+      assert(f1.calledWith('https://foobar.com'));
+      assert(f2.calledWith('https://foobar.com'));
 
       expect(instanceManager.isRegisteredInstance('https://foobar.com')).to.be.false;
     });
