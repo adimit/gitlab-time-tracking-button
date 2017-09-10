@@ -9,11 +9,20 @@ export default class InstanceManager {
     this.removalHandlers = [];
   }
 
-  async updateStorage(changes, namespace) {
+  updateStorage(changes) {
     this.instances = changes.gitlabs.newValue;
-    // updates instances
-    // TODO triggers removed instance event if any instance(s) got removed (need
-    // to add registering function for event handler first)
+
+    if (changes.gitlabs.newValue !== undefined
+     && changes.gitlabs.oldValue !== undefined) {
+      const newHosts = new Set(Object.keys(changes.gitlabs.newValue));
+      const oldHosts = new Set(Object.keys(changes.gitlabs.oldValue));
+
+      const vanishedHosts = new Set([...oldHosts].filter(x => !newHosts.has(x)));
+
+      const removalHandlers = this.removalHandlers;
+      vanishedHosts.forEach(host => fireEvent(removalHandlers, host));
+    }
+
     return this;
   }
 
