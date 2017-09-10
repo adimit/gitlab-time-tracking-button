@@ -11,7 +11,9 @@
   ],
   "globals": {
     "chrome": true,
-    "expect": true
+    "expect": true,
+    "assert": true,
+    "sinon": true
   },
   "rules": {
     "no-unused-expressions": 0,
