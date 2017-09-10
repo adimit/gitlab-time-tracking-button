@@ -28,10 +28,50 @@ describe('InstanceManager', function () {
 
     it('fires deletion events for registered handlers when an instance vanishes', function () {
       // register two spies for deletion events
-      // fire listener function, add two new instances
-      // fire listener function, remove one instance
-      // check that both spies got called
+      const f1 = sinon.spy();
+      const f2 = sinon.spy();
 
+      instanceManager.onInstanceRemoval(f1);
+      instanceManager.onInstanceRemoval(f2);
+
+      // fire listener function, add two new instances
+      instanceManager.updateStorage(
+        {
+          gitlabs: {
+            newValue: {
+              'https://example.com': 'foo',
+              'https://foobar.com': 'example',
+            },
+            oldValue: undefined,
+          },
+        },
+        'local',
+      );
+
+      assert(f1.notCalled);
+      assert(f2.notCalled);
+
+      // fire listener function, remove one instance
+      instanceManager.updateStorage(
+        {
+          gitlabs: {
+            newValue: {
+              'https://example.com': 'foo',
+            },
+            oldValue: {
+              'https://example.com': 'foo',
+              'https://foobar.com': 'example',
+            },
+          },
+        },
+        'local',
+      );
+
+      // check that both spies got called
+      assert(f1.called);
+      assert(f2.called);
+
+      expect(instanceManager.isRegisteredInstance('https://foobar.com')).to.be.false;
     });
   });
 });

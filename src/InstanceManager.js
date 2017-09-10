@@ -11,6 +11,10 @@ export default class InstanceManager {
     // to add registering function for event handler first)
   }
 
+  onInstanceRemoval(listener) {
+
+  }
+
   isRegisteredInstance(url) {
     return false;
   }
