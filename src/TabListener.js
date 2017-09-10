@@ -4,7 +4,7 @@ export default class TabListener {
     this.instanceManager = instanceManager;
   }
 
-  updateTabs(tabId, changeInfo, tab) {
-    console.log(tabId, changeInfo, tab);
+  updateTabs(info) {
+    console.log(info);
   }
 }
