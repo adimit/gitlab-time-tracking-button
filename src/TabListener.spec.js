@@ -22,7 +22,7 @@ describe('TabListener', function () {
         url: 'https://gitlab.com/some/project/issues/1',
         id: 99,
       };
-      const insertAssets = sinon.stub(TabListener, 'insertAssetsInto');
+      const insertAssetsInto = sinon.stub(TabListener, 'insertAssetsInto');
 
       // mock instance handler returns true on isRegisteredInstance
       instanceManager.expects('isRegisteredInstance').returns(true);
@@ -31,7 +31,7 @@ describe('TabListener', function () {
       tabListener.updateTabs(tabMessage);
 
       // calls insertion function for our assets into the right tab
-      assert(insertAssets.calledOnce);
+      assert(insertAssetsInto.calledWith(99));
     });
 
     it('Doesn\'t react when it shouldn\'t', function () {
