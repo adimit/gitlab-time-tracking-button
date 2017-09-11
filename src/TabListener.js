@@ -7,4 +7,8 @@ export default class TabListener {
   updateTabs(info) {
     console.log(info);
   }
+
+  insertAssetsInto(tabId) {
+    console.log('inserting', tabId);
+  }
 }
