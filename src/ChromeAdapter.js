@@ -11,12 +11,12 @@ export default class ChromeAdapter {
   }
 
   async addPermission(url) {
-    if (this.isFirefox) {
-      await this.uncheckedAddPermission(url);
-      return;
+    let isPermissionEnabled = false;
+
+    if (!this.isFirefox) {
+      isPermissionEnabled = await this.isPermissionEnabled(url);
     }
 
-    const isPermissionEnabled = await this.isPermissionEnabled(url);
     if (!isPermissionEnabled) {
       await this.uncheckedAddPermission(url);
     }
