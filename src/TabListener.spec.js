@@ -12,6 +12,14 @@ const sinonTest = sinonTestFactory(sinon);
 
 describe('TabListener', function () {
   describe('updateTabs', function () {
+    const createMocks = (sinon) => {
+      const chromeMock = sinon.mock(ChromeAdapter.prototype);
+      const instanceManagerMock = sinon.mock(InstanceManager.prototype);
+      const insertAssetsInto = sinon.stub(TabListener.prototype, 'insertAssetsInto');
+
+      return [ chromeMock, instanceManagerMock, insertAssetsInto ];
+    };
+
     it('Reacts on complete events for registered instances, if we\'re on an issue page', sinonTest(function () {
       const tabMessage = {
         status: 'complete',
@@ -19,9 +27,7 @@ describe('TabListener', function () {
         id: 99,
       };
 
-      const chromeMock = this.mock(ChromeAdapter.prototype);
-      const instanceManagerMock = this.mock(InstanceManager.prototype);
-      const insertAssetsInto = this.stub(TabListener.prototype, 'insertAssetsInto');
+      const [chromeMock, instanceManagerMock, insertAssetsInto] = createMocks(this);
 
       // mock instance handler returns true on isRegisteredInstance
       instanceManagerMock.expects('isRegisteredInstance').returns(true);
@@ -39,11 +45,8 @@ describe('TabListener', function () {
       );
     }));
 
-    it('Doesn\'t react when it shouldn\'t', sinonTest(function () {
-      // trigger a tab change with:
-      const chromeMock = this.mock(ChromeAdapter.prototype);
-      const instanceManagerMock = this.mock(InstanceManager.prototype);
-      const insertAssetsInto = this.stub(TabListener.prototype, 'insertAssetsInto');
+    it('Doesn\'t react with correct instance but not on issue page', sinonTest(function () {
+      const [chromeMock, instanceManagerMock, insertAssetsInto] = createMocks(this);
 
       instanceManagerMock.expects('isRegisteredInstance').returns(true);
 
@@ -59,11 +62,8 @@ describe('TabListener', function () {
       sinon.assert.notCalled(insertAssetsInto);
     }));
 
-    it('Doesn\'t react when it shouldn\'t', sinonTest(function () {
-      // trigger a tab change with:
-      const chromeMock = this.mock(ChromeAdapter.prototype);
-      const instanceManagerMock = this.mock(InstanceManager.prototype);
-      const insertAssetsInto = this.stub(TabListener.prototype, 'insertAssetsInto');
+    it('Does\'t react with incorrcet instance', sinonTest(function () {
+      const [chromeMock, instanceManagerMock, insertAssetsInto] = createMocks(this);
 
       instanceManagerMock.expects('isRegisteredInstance').returns(false);
 
@@ -74,7 +74,6 @@ describe('TabListener', function () {
         url: 'https://gitlab.com/some/project/issues/1',
       });
       instanceManagerMock.verify();
-
 
       // does not call insertion function at all.
       sinon.assert.notCalled(insertAssetsInto);
