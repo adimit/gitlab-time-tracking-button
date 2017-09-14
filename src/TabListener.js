@@ -18,7 +18,7 @@ export default class TabListener {
     }
   }
 
-  insertAssetsInto(tabId) {
-    console.log('inserting', tabId);
+  insertAssetsInto(tabId, data) {
+    console.log('inserting', tabId, data);
   }
 }
