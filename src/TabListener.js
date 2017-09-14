@@ -2,10 +2,20 @@ export default class TabListener {
   constructor(myChrome, instanceManager) {
     this.chrome = myChrome;
     this.instanceManager = instanceManager;
+    this.matchUrl = /\/([^/]+)\/([^/]+)\/issues\/(\d+)/;
   }
 
   updateTabs(info) {
-    console.log(info);
+    if (info.status !== 'complete'
+     || !this.instanceManager.isRegisteredInstance(info.url)
+    ) {
+      return;
+    }
+
+    const [match, group, project, issue] = info.url.match(this.matchUrl) || [];
+    if (match && group && project && issue) {
+      this.insertAssetsInto(info.id, { group, project, issue });
+    }
   }
 
   insertAssetsInto(tabId) {
