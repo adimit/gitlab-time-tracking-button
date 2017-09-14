@@ -12,12 +12,12 @@ const sinonTest = sinonTestFactory(sinon);
 
 describe('TabListener', function () {
   describe('updateTabs', function () {
-    const createMocks = (sinon) => {
-      const chromeMock = sinon.mock(ChromeAdapter.prototype);
-      const instanceManagerMock = sinon.mock(InstanceManager.prototype);
-      const insertAssetsInto = sinon.stub(TabListener.prototype, 'insertAssetsInto');
+    const createMocks = (mySinon) => {
+      const chromeMock = mySinon.mock(ChromeAdapter.prototype);
+      const instanceManagerMock = mySinon.mock(InstanceManager.prototype);
+      const insertAssetsInto = mySinon.stub(TabListener.prototype, 'insertAssetsInto');
 
-      return [ chromeMock, instanceManagerMock, insertAssetsInto ];
+      return [chromeMock, instanceManagerMock, insertAssetsInto];
     };
 
     it('Reacts on complete events for registered instances, if we\'re on an issue page', sinonTest(function () {
