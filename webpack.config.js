@@ -111,5 +111,9 @@ module.exports = {
         loader: "url-loader?mimetype=image/gif"
       }
     ]
+  },
+  node: {
+    fs: 'empty',
+    child_process: 'empty'
   }
 };
