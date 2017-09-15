@@ -9,7 +9,7 @@ export default class Clock {
   }
 
   start() {
-    if (this.currentTime === null) {
+    if (!this.isRunning()) {
       this.currentTime = { start: Date.now() };
       this.startTicks();
     }
@@ -17,7 +17,7 @@ export default class Clock {
   }
 
   stop() {
-    if (this.currentTime !== null) {
+    if (this.isRunning()) {
       this.currentTime.duration = this.getCurrentRunningTime();
       this.timeLog.push(this.currentTime);
       this.currentTime = null;
