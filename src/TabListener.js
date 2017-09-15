@@ -1,6 +1,6 @@
 export default class TabListener {
-  constructor(myChrome, instanceManager) {
-    this.chrome = myChrome;
+  constructor(chromeTabs, instanceManager) {
+    this.chromeTabs = chromeTabs;
     this.instanceManager = instanceManager;
     this.matchUrl = /\/([^/]+)\/([^/]+)\/issues\/(\d+)/;
   }
