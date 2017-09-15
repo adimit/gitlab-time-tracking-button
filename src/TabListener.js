@@ -1,3 +1,5 @@
+// We import the raw js from Button.js, which is a nasty thing to do.
+// ESlint is going to complain about many things, but we know what we're doing! I think…
 import buttonJs from 'raw-loader!./Button'; // eslint-disable-line
 
 export default class TabListener {
