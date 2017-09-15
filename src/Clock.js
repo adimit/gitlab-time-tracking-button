@@ -38,6 +38,10 @@ export default class Clock {
     return this.timeLog;
   }
 
+  getLoggedTime() {
+    return this.timeLog.map(entry => entry.duration).reduce((x, y) => x + y, 0);
+  }
+
   getCurrentRunningTime() {
     if (this.currentTime) {
       return (Date.now() - this.currentTime.start) / 1000;
@@ -47,7 +51,6 @@ export default class Clock {
   }
 
   getTime() {
-    return this.timeLog.map(entry => entry.duration).reduce((x, y) => x + y, 0)
-      + this.getCurrentRunningTime();
+    return this.getLoggedTime() + this.getCurrentRunningTime();
   }
 }
