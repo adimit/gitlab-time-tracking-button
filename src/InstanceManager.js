@@ -31,6 +31,10 @@ export default class InstanceManager {
   }
 
   isRegisteredInstance(url) {
+    if (this.instances === undefined) {
+      return false;
+    }
+
     const parser = document.createElement('a');
     parser.href = url;
     const key = `${parser.protocol}//${parser.host}/`;
