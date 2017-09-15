@@ -22,7 +22,10 @@ export default class TabListener {
   async insertAssetsInto(tabId, data) {
     const js = `const injectedIssueData = ${JSON.stringify(data)};`;
     await this.chromeTabs.insertJs(tabId, js);
-    await this.chromeTabs.insertJsFile(tabId, 'content_scripts/ClockButton.js');
-    await this.chromeTabs.insertCssFile(tabId, 'content_scripts/ClockButton.css');
+
+    return [
+      await this.chromeTabs.insertJsFile(tabId, 'content_scripts/ClockButton.js'),
+      await this.chromeTabs.insertCssFile(tabId, 'content_scripts/ClockButton.css'),
+    ];
   }
 }
