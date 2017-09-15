@@ -35,11 +35,9 @@ describe('InstanceManager', function () {
       const instanceManager = createInstanceManager();
       // register two spies for deletion events
       const f1 = this.spy();
-      const f2 = this.spy();
 
       // when
       instanceManager.onInstanceRemoval(f1);
-      instanceManager.onInstanceRemoval(f2);
 
       // fire listener function, add two new instances
       instanceManager.updateStorage({
@@ -51,7 +49,6 @@ describe('InstanceManager', function () {
 
       // then
       assert(f1.notCalled);
-      assert(f2.notCalled);
     }));
 
     it('fires a deletion event when an instance is added and doesn\'t recognise that instance', sinonTest(function () {
