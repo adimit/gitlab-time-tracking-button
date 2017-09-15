@@ -22,4 +22,14 @@ export default class ChromeTabs {
       );
     });
   }
+
+  insertCssFile(tabId, cssFile) {
+    return new Promise((resolve) => {
+      this.chrome.tabs.insertCSS(
+        tabId,
+        { file: cssFile },
+        () => resolve(),
+      );
+    });
+  }
 }

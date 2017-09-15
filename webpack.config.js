@@ -82,19 +82,14 @@ module.exports = {
         loader: "css-loader"
       },
       {
-        /** SCSS files are first run through the SCSS compiler, and then processd just like CSS files */
-        test: /content_scripts.*\.scss$/,
-        loader: "css-loader!sass-loader"
-      },
-      {
         /** The html file for options is extracted separately, as it needs
             to be present for the webextensions options mechanism to work.*/
         test: /.*(options).*\.html$/,
         loader: HtmlTextPlugin.extract({use: "raw-loader"})
       },
       {
-        /** The css file for options is also extracted separately */
-        test: /.*(options).*\.scss$/,
+        /** The css files are also extracted separately */
+        test: /\.scss$/,
         loader: CssTextPlugin.extract({use: "css-loader!sass-loader"})
       },
       {

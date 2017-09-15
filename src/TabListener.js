@@ -23,5 +23,6 @@ export default class TabListener {
     const js = `const injectedIssueData = ${JSON.stringify(data)};`;
     await this.chromeTabs.insertJs(tabId, js);
     await this.chromeTabs.insertJsFile(tabId, 'content_scripts/ClockButton.js');
+    await this.chromeTabs.insertCssFile(tabId, 'content_scripts/ClockButton.css');
   }
 }
