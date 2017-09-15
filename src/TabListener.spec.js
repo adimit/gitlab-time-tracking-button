@@ -20,19 +20,16 @@ describe('TabListener', function () {
       // given
       const [chromeMock, instanceManagerMock, insertAssetsInto] = createMocks(this);
       const sut = new TabListener(chromeMock.object, instanceManagerMock);
+      const theUrl = 'https://gitlab.com/some/project/issues/7';
 
       // when
-      sut.updateTabs({
-        status: 'complete',
-        url: 'https://gitlab.com/some/project/issues/7',
-        id: 99,
-      });
+      sut.updateTabs({ status: 'complete', url: theUrl, id: 99 });
 
       // then
       sinon.assert.calledWith(
         insertAssetsInto,
         99,
-        { group: 'some', project: 'project', issue: '7' },
+        { group: 'some', project: 'project', issue: '7', url: theUrl },
       );
     }));
 
