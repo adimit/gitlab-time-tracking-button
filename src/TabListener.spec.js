@@ -5,39 +5,30 @@ import sinonTestFactory from 'sinon-test';
 import { describe, it } from 'mocha';
 
 import TabListener from './TabListener';
-import InstanceManager from './InstanceManager';
-import ChromeAdapter from './ChromeAdapter';
 
 const sinonTest = sinonTestFactory(sinon);
 
 describe('TabListener', function () {
   describe('updateTabs', function () {
-    const createMocks = (mySinon) => {
-      const chromeMock = mySinon.mock(ChromeAdapter.prototype);
-      const instanceManagerMock = mySinon.mock(InstanceManager.prototype);
-      const insertAssetsInto = mySinon.stub(TabListener.prototype, 'insertAssetsInto');
-
-      return [chromeMock, instanceManagerMock, insertAssetsInto];
-    };
+    const createMocks = mySinon => [
+      {},
+      { isRegisteredInstance: () => true },
+      mySinon.stub(TabListener.prototype, 'insertAssetsInto'),
+    ];
 
     it('Reacts on complete events for registered instances, if we\'re on an issue page', sinonTest(function () {
-      const tabMessage = {
+      // given
+      const [chromeMock, instanceManagerMock, insertAssetsInto] = createMocks(this);
+      const sut = new TabListener(chromeMock.object, instanceManagerMock);
+
+      // when
+      sut.updateTabs({
         status: 'complete',
         url: 'https://gitlab.com/some/project/issues/7',
         id: 99,
-      };
+      });
 
-      const [chromeMock, instanceManagerMock, insertAssetsInto] = createMocks(this);
-
-      // mock instance handler returns true on isRegisteredInstance
-      instanceManagerMock.expects('isRegisteredInstance').returns(true);
-
-      const sut = new TabListener(chromeMock.object, instanceManagerMock.object);
-      // trigger a tab change
-      sut.updateTabs(tabMessage);
-
-      // calls insertion function for our assets into the right tab
-      instanceManagerMock.verify();
+      // then
       sinon.assert.calledWith(
         insertAssetsInto,
         99,
@@ -46,36 +37,33 @@ describe('TabListener', function () {
     }));
 
     it('Doesn\'t react with correct instance but not on issue page', sinonTest(function () {
+      // given
       const [chromeMock, instanceManagerMock, insertAssetsInto] = createMocks(this);
+      const sut = new TabListener(chromeMock.object, instanceManagerMock);
 
-      instanceManagerMock.expects('isRegisteredInstance').returns(true);
-
-      const sut = new TabListener(chromeMock.object, instanceManagerMock.object);
-
-      // - correct instance, but not on issue page
+      // when
       sut.updateTabs({
         status: 'complete',
-        url: 'https://gitlab.com/foo/bar',
+        url: 'https://gitlab.com/foo/bar', // not on issue page
       });
-      instanceManagerMock.verify();
-      instanceManagerMock.restore();
+
+      // then
       sinon.assert.notCalled(insertAssetsInto);
     }));
 
     it('Does\'t react with incorrcet instance', sinonTest(function () {
+      // given
       const [chromeMock, instanceManagerMock, insertAssetsInto] = createMocks(this);
+      const sut = new TabListener(chromeMock.object, instanceManagerMock);
 
-      instanceManagerMock.expects('isRegisteredInstance').returns(false);
-
-      const sut = new TabListener(chromeMock.object, instanceManagerMock.object);
-      // - incorrect instance
+      // when
+      instanceManagerMock.isRegisteredInstance = () => false; // we're using the wrong instance
       sut.updateTabs({
         status: 'complete',
         url: 'https://gitlab.com/some/project/issues/1',
       });
-      instanceManagerMock.verify();
 
-      // does not call insertion function at all.
+      // then
       sinon.assert.notCalled(insertAssetsInto);
     }));
   });
