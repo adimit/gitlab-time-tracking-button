@@ -1,5 +1,5 @@
 /* eslint-disable func-names, prefer-arrow-callback */
-import { assert, expect, describe, it } from 'mocha';
+import { expect, describe, it } from 'mocha';
 import sinon from 'sinon';
 import sinonTestFactory from 'sinon-test';
 
@@ -9,7 +9,10 @@ const sinonTest = sinonTestFactory(sinon);
 
 describe('InstanceManager', function () {
   describe('storage listener', function () {
-    const createInstanceManager = () => new InstanceManager({});
+    const createInstanceManager = (instances) => {
+      const myInstances = instances || {};
+      return new InstanceManager(myInstances);
+    };
 
     it('recognizes new instance after insertion', function () {
       // given
@@ -48,12 +51,15 @@ describe('InstanceManager', function () {
       }, 'irrelephant');
 
       // then
-      assert(f1.notCalled);
+      sinon.assert.notCalled(f1);
     }));
 
     it('fires a deletion event when an instance is added and doesn\'t recognise that instance', sinonTest(function () {
       // given
-      const instanceManager = createInstanceManager();
+      const instanceManager = createInstanceManager({
+        'https://example.com/': 'foo',
+        'https://aoeuaoeu.com/': 'aeua',
+      });
       // register two spies for deletion events
       const f1 = this.spy();
       const f2 = this.spy();
@@ -61,17 +67,6 @@ describe('InstanceManager', function () {
       // when
       instanceManager.onInstanceRemoval(f1);
       instanceManager.onInstanceRemoval(f2);
-
-      // First, add two instances
-      instanceManager.updateStorage({
-        gitlabs: {
-          newValue: {
-            'https://example.com/': 'foo',
-            'https://aoeuaoeu.com/': 'aeua',
-          },
-          oldValue: undefined,
-        },
-      }, 'local');
 
       // fire listener function, remove one instance
       instanceManager.updateStorage(
@@ -91,8 +86,8 @@ describe('InstanceManager', function () {
 
       // then
       // both spies got called with the deleted instance
-      assert(f1.calledWith('https://foobar.com/'));
-      assert(f2.calledWith('https://foobar.com/'));
+      sinon.assert.calledWith(f1, 'https://foobar.com/');
+      sinon.assert.calledWith(f2, 'https://foobar.com/');
 
       // the deleted instance is not recognised
       expect(instanceManager.isRegisteredInstance('https://foobar.com/')).to.be.false;
