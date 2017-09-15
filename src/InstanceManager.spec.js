@@ -47,7 +47,7 @@ describe('InstanceManager', function () {
           newValue: { 'https://example.com': 'foo' },
           oldValue: undefined,
         },
-      }, 'irrelephant 🐘');
+      }, 'irrelephant');
 
       // then
       assert(f1.notCalled);
