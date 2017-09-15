@@ -1,12 +1,17 @@
+import fireEvent from './Events';
+
 export default class Clock {
   constructor(timeLog) {
     this.timeLog = timeLog || [];
     this.currentTime = null;
+    this.subscribers = [];
+    this.tick = null;
   }
 
   start() {
     if (this.currentTime === null) {
       this.currentTime = { start: Date.now() };
+      this.startTicks();
     }
     return this;
   }
@@ -16,8 +21,22 @@ export default class Clock {
       this.currentTime.duration = this.getCurrentRunningTime();
       this.timeLog.push(this.currentTime);
       this.currentTime = null;
+      this.stopTicks();
     }
     return this;
+  }
+
+  startTicks() {
+    const timeSoFar = this.getLoggedTime();
+    const clock = this;
+    this.tick = setInterval(
+      () => fireEvent(clock.subscribers, timeSoFar + clock.getCurrentRunningTime()),
+      1000,
+    );
+  }
+
+  stopTicks() {
+    clearInterval(this.tick);
   }
 
   isRunning() {
@@ -52,5 +71,9 @@ export default class Clock {
 
   getTime() {
     return this.getLoggedTime() + this.getCurrentRunningTime();
+  }
+
+  subscribe(f) {
+    this.subscribers.push(f);
   }
 }

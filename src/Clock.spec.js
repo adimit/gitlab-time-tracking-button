@@ -62,4 +62,23 @@ describe('Clock', function () {
     expect(clock.getTimeLog()[1].duration).to.equal(thirdInterval);
     fakeTime.restore();
   }));
+
+  it('Allows subscribing to a time feed', sinonTest(function () {
+    // given
+    const fakeTime = sinon.useFakeTimers();
+    const clock = new Clock();
+    const spy = this.spy();
+    const interval = 7;
+
+    // when
+    clock.subscribe(spy);
+    clock.start();
+    fakeTime.tick(interval * 1000);
+    clock.stop();
+    fakeTime.tick(interval * 1000);
+
+    // then
+    sinon.assert.callCount(spy, interval);
+    fakeTime.restore();
+  }));
 });
