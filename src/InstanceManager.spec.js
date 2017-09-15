@@ -10,7 +10,8 @@ const sinonTest = sinonTestFactory(sinon);
 describe('InstanceManager', function () {
   describe('storage listener', function () {
     const createInstanceManager = () => new InstanceManager({});
-    it('reconginzes new instance after insertion', function () {
+
+    it('recognizes new instance after insertion', function () {
       // given
       const instanceManager = createInstanceManager();
       const theHostUrl = 'https://example.com:3201';
