@@ -34,7 +34,7 @@ export default class InstanceManager {
   isRegisteredInstance(url) {
     const parser = document.createElement('a');
     parser.href = url;
-    const key = `${parser.protocol}//${parser.host}`;
+    const key = `${parser.protocol}//${parser.host}/`;
     return Object.keys(this.instances).includes(key);
   }
 }

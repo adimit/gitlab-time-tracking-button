@@ -14,7 +14,7 @@ describe('InstanceManager', function () {
     it('recognizes new instance after insertion', function () {
       // given
       const instanceManager = createInstanceManager();
-      const theHostUrl = 'https://example.com:3201';
+      const theHostUrl = 'https://example.com:3201/';
 
       // when
       // fire listener function
@@ -44,7 +44,7 @@ describe('InstanceManager', function () {
       // fire listener function, add two new instances
       instanceManager.updateStorage({
         gitlabs: {
-          newValue: { 'https://example.com': 'foo' },
+          newValue: { 'https://example.com/': 'foo' },
           oldValue: undefined,
         },
       }, 'irrelephant');
@@ -69,8 +69,8 @@ describe('InstanceManager', function () {
       instanceManager.updateStorage({
         gitlabs: {
           newValue: {
-            'https://example.com': 'foo',
-            'https://aoeuaoeu.com': 'aeua',
+            'https://example.com/': 'foo',
+            'https://aoeuaoeu.com/': 'aeua',
           },
           oldValue: undefined,
         },
@@ -81,11 +81,11 @@ describe('InstanceManager', function () {
         {
           gitlabs: {
             newValue: {
-              'https://example.com': 'foo',
+              'https://example.com/': 'foo',
             },
             oldValue: {
-              'https://example.com': 'foo',
-              'https://foobar.com': 'example',
+              'https://example.com/': 'foo',
+              'https://foobar.com/': 'example',
             },
           },
         },
@@ -94,11 +94,11 @@ describe('InstanceManager', function () {
 
       // then
       // both spies got called with the deleted instance
-      assert(f1.calledWith('https://foobar.com'));
-      assert(f2.calledWith('https://foobar.com'));
+      assert(f1.calledWith('https://foobar.com/'));
+      assert(f2.calledWith('https://foobar.com/'));
 
       // the deleted instance is not recognised
-      expect(instanceManager.isRegisteredInstance('https://foobar.com')).to.be.false;
+      expect(instanceManager.isRegisteredInstance('https://foobar.com/')).to.be.false;
     }));
   });
 });
