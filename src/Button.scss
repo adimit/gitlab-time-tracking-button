@@ -1,0 +1,12 @@
+@mixin time-tracking-button {
+  color: red;
+}
+
+.start-stop-button {
+  @include time-tracking-button;
+}
+
+.save-time-button {
+  @include time-tracking-button;
+  visibility: hidden;
+}
