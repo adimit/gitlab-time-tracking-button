@@ -1,42 +1,53 @@
-const isOdd = number => number % 2 === 1;
-
 export default class Clock {
   constructor(timeLog) {
-    this.timeLog = [];
     this.timeLog = timeLog || [];
+    this.currentTime = null;
   }
 
   start() {
-    if (!this.isRunning()) {
-      this.toggle();
+    if (this.currentTime === null) {
+      this.currentTime = { start: Date.now() };
     }
+    return this;
   }
 
   stop() {
-    if (this.isRunning()) {
-      this.toggle();
+    if (this.currentTime !== null) {
+      this.currentTime.duration = this.getCurrentRunningTime();
+      this.timeLog.push(this.currentTime);
+      this.currentTime = null;
     }
+    return this;
   }
 
   isRunning() {
-    isOdd(this.timeLog.length);
+    return this.currentTime !== null;
   }
 
   toggle() {
-    
+    if (this.isRunning()) {
+      this.stop();
+    } else {
+      this.start();
+    }
+
+    return this;
   }
 
   getTimeLog() {
     return this.timeLog;
   }
 
-  getTotalTime() {
-    
+  getCurrentRunningTime() {
+    if (this.currentTime) {
+      return (Date.now() - this.currentTime.start) / 1000;
+    }
+
+    return 0;
   }
 
-  getCurrentRunningClock() {
-    if (!this.isRunning()) {
-      return 0;
-    }
+  getTime() {
+    return this.timeLog.map(entry => entry.duration).reduce((x, y) => x + y, 0)
+      + this.getCurrentRunningTime();
   }
 }
