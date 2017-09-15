@@ -29,31 +29,51 @@ describe('InstanceManager', function () {
       expect(instanceManager.isRegisteredInstance(`${theHostUrl}/and/any/path`)).to.be.true;
     });
 
-    it('fires deletion events for registered handlers when an instance vanishes', sinonTest(function () {
+    it('does not fire deletion events when an instance is added', sinonTest(function () {
+      // given
       const instanceManager = createInstanceManager();
       // register two spies for deletion events
       const f1 = this.spy();
       const f2 = this.spy();
 
+      // when
       instanceManager.onInstanceRemoval(f1);
       instanceManager.onInstanceRemoval(f2);
 
       // fire listener function, add two new instances
-      instanceManager.updateStorage(
-        {
-          gitlabs: {
-            newValue: {
-              'https://example.com': 'foo',
-              'https://foobar.com': 'example',
-            },
-            oldValue: undefined,
-          },
+      instanceManager.updateStorage({
+        gitlabs: {
+          newValue: { 'https://example.com': 'foo' },
+          oldValue: undefined,
         },
-        'local',
-      );
+      }, 'irrelephant 🐘');
 
+      // then
       assert(f1.notCalled);
       assert(f2.notCalled);
+    }));
+
+    it('fires a deletion event when an instance is added and doesn\'t recognise that instance', sinonTest(function () {
+      // given
+      const instanceManager = createInstanceManager();
+      // register two spies for deletion events
+      const f1 = this.spy();
+      const f2 = this.spy();
+
+      // when
+      instanceManager.onInstanceRemoval(f1);
+      instanceManager.onInstanceRemoval(f2);
+
+      // First, add two instances
+      instanceManager.updateStorage({
+        gitlabs: {
+          newValue: {
+            'https://example.com': 'foo',
+            'https://aoeuaoeu.com': 'aeua',
+          },
+          oldValue: undefined,
+        },
+      }, 'local');
 
       // fire listener function, remove one instance
       instanceManager.updateStorage(
@@ -71,10 +91,12 @@ describe('InstanceManager', function () {
         'local',
       );
 
-      // check that both spies got called
+      // then
+      // both spies got called with the deleted instance
       assert(f1.calledWith('https://foobar.com'));
       assert(f2.calledWith('https://foobar.com'));
 
+      // the deleted instance is not recognised
       expect(instanceManager.isRegisteredInstance('https://foobar.com')).to.be.false;
     }));
   });
