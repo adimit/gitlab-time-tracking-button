@@ -1,34 +1,39 @@
 /* eslint-disable func-names, prefer-arrow-callback */
+import { assert, expect, describe, it } from 'mocha';
+import sinon from 'sinon';
+import sinonTestFactory from 'sinon-test';
 
 import InstanceManager from './InstanceManager';
 
+const sinonTest = sinonTestFactory(sinon);
+
 describe('InstanceManager', function () {
   describe('storage listener', function () {
-    let instanceManager;
+    const createInstanceManager = () => new InstanceManager({});
+    it('reconginzes new instance after insertion', function () {
+      // given
+      const instanceManager = createInstanceManager();
+      const theHostUrl = 'https://example.com:3201';
 
-    beforeEach(function () {
-      instanceManager = new InstanceManager(undefined);
-    });
-
-    it('updates instances and recognises new ones', function () {
+      // when
       // fire listener function
-      const changes = {
+      instanceManager.updateStorage({
         gitlabs: {
-          newValue: { 'https://example.com:3201': 'foo' },
+          newValue: { [theHostUrl]: 'anyApiKey' },
           oldValue: undefined,
         },
-      };
+      }, 'theScopeShouldNotMatter');
 
-      instanceManager.updateStorage(changes, 'local');
-
+      // then
       // check with isRegisteredInstance if the new instance is recognised
-      expect(instanceManager.isRegisteredInstance('https://example.com:3201/foo/bar')).to.be.true;
+      expect(instanceManager.isRegisteredInstance(`${theHostUrl}/and/any/path`)).to.be.true;
     });
 
-    it('fires deletion events for registered handlers when an instance vanishes', function () {
+    it('fires deletion events for registered handlers when an instance vanishes', sinonTest(function () {
+      const instanceManager = createInstanceManager();
       // register two spies for deletion events
-      const f1 = sinon.spy();
-      const f2 = sinon.spy();
+      const f1 = this.spy();
+      const f2 = this.spy();
 
       instanceManager.onInstanceRemoval(f1);
       instanceManager.onInstanceRemoval(f2);
@@ -71,6 +76,6 @@ describe('InstanceManager', function () {
       assert(f2.calledWith('https://foobar.com'));
 
       expect(instanceManager.isRegisteredInstance('https://foobar.com')).to.be.false;
-    });
+    }));
   });
 });
