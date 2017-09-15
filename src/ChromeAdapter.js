@@ -81,6 +81,14 @@ export default class ChromeAdapter {
     });
   }
 
+  async getOrDefault(items, defaultResult) {
+    try {
+      return await this.get(items);
+    } catch (e) {
+      return defaultResult;
+    }
+  }
+
   /**
    * Wrapper around chrome.storage.local.set, returns a Promise.
    *
