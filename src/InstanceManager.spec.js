@@ -20,10 +20,10 @@ describe('InstanceManager', function () {
       // fire listener function
       instanceManager.updateStorage({
         gitlabs: {
-          newValue: { [theHostUrl]: 'anyApiKey' },
+          newValue: { [theHostUrl]: 'any API key' },
           oldValue: undefined,
         },
-      }, 'theScopeShouldNotMatter');
+      }, 'the scope should not matter');
 
       // then
       // check with isRegisteredInstance if the new instance is recognised
