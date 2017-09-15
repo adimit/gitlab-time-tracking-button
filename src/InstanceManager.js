@@ -1,6 +1,4 @@
-const fireEvent = (handlers, data) => {
-  handlers.forEach(f => f(data));
-};
+import fireEvent from './Events';
 
 export default class InstanceManager {
   constructor(instances) {
