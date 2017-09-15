@@ -13,12 +13,12 @@ export default class ChromeTabs {
     });
   }
 
-  insertCss(tabId, css) {
+  insertJsFile(tabId, jsFile) {
     return new Promise((resolve) => {
-      this.chrome.tabs.insertCSS(
+      this.chrome.tabs.executeScript(
         tabId,
-        { code: css },
-        () => resolve(),
+        { file: jsFile },
+        result => resolve(result),
       );
     });
   }

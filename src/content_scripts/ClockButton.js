@@ -1,5 +1,5 @@
-// The injectedIssueData comes from where this script will be injected
-const issueData = injectedIssueData; // eslint-disable-line no-undef
+import Clock from '../Clock';
+import './ClockButton.scss';
 
 const ourContainer = document.createElement('div');
 ourContainer.classList.add('block');
@@ -20,6 +20,8 @@ timeDisplay.textContent = '0:00';
 ourContainer.append(startStopButton);
 ourContainer.append(timeDisplay);
 ourContainer.append(saveButton);
+
+const issueClock = new Clock();
 
 const dueDateContainer = document.querySelector('.block.due_date');
 dueDateContainer.before(ourContainer);

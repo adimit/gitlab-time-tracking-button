@@ -30,7 +30,9 @@ module.exports = {
 
     /** options script and its assets, used for addon options.
         The HTML is extracted with the extract text plugin */
-    'options': glob.sync(path.resolve(source_path, "options.*"))
+    'options': glob.sync(path.resolve(source_path, "options.*")),
+
+    'content_scripts/ClockButton': glob.sync(path.resolve(source_path, "content_scripts/ClockButton.*"))
   },
   devtool: 'source-map',
   output: {
@@ -81,7 +83,7 @@ module.exports = {
       },
       {
         /** SCSS files are first run through the SCSS compiler, and then processd just like CSS files */
-        test: /assets.*\.scss$/,
+        test: /content_scripts.*\.scss$/,
         loader: "css-loader!sass-loader"
       },
       {
