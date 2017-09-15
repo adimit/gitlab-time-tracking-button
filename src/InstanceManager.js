@@ -3,9 +3,8 @@ const fireEvent = (handlers, data) => {
 };
 
 export default class InstanceManager {
-  constructor(myChrome) {
-    this.chrome = myChrome;
-    this.instances = {};
+  constructor(instances) {
+    this.instances = instances;
     this.removalHandlers = [];
   }
 
