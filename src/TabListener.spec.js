@@ -26,11 +26,7 @@ describe('TabListener', function () {
       sut.updateTabs({ status: 'complete', url: theUrl, id: 99 });
 
       // then
-      sinon.assert.calledWith(
-        insertAssetsInto,
-        99,
-        { group: 'some', project: 'project', issue: '7', url: theUrl },
-      );
+      sinon.assert.calledWith(insertAssetsInto, 99);
     }));
 
     it('Doesn\'t react with correct instance but not on issue page', sinonTest(function () {

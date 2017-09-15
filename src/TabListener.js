@@ -15,14 +15,11 @@ export default class TabListener {
     const [match, group, project, issue] = info.url.match(this.matchUrl) || [];
 
     if (match && group && project && issue) {
-      this.insertAssetsInto(info.id, { group, project, issue, url: info.url });
+      this.insertAssetsInto(info.id);
     }
   }
 
-  async insertAssetsInto(tabId, data) {
-    const js = `const injectedIssueData = ${JSON.stringify(data)};`;
-    await this.chromeTabs.insertJs(tabId, js);
-
+  async insertAssetsInto(tabId) {
     return [
       await this.chromeTabs.insertJsFile(tabId, 'content_scripts/ClockButton.js'),
       await this.chromeTabs.insertCssFile(tabId, 'content_scripts/ClockButton.css'),
