@@ -1,8 +1,6 @@
 import isFirefox from '../UserAgent';
 
-const firefoxSendMessage = (chrome, data) => {
-  chrome.runtime.sendMessage(data);
-};
+const firefoxSendMessage = (chrome, data) => chrome.runtime.sendMessage(data);
 
 const chromeSendMessage = (chrome, data) => new Promise((resolve, reject) => {
   chrome.runtime.sendMessage(undefined, data, undefined, (response) => {
