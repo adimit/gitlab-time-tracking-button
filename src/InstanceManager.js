@@ -7,13 +7,17 @@ export default class InstanceManager {
     this.removalHandlers = [];
   }
 
-  updateStorage(changes) {
-    this.instances = changes.gitlabs.newValue;
+  updateStorage({ gitlabs }) {
+    if (gitlabs === undefined) {
+      return this;
+    }
 
-    if (changes.gitlabs.newValue !== undefined
-     && changes.gitlabs.oldValue !== undefined) {
-      const newHosts = new Set(Object.keys(changes.gitlabs.newValue));
-      const oldHosts = new Set(Object.keys(changes.gitlabs.oldValue));
+    this.instances = gitlabs.newValue;
+
+    if (gitlabs.newValue !== undefined
+     && gitlabs.oldValue !== undefined) {
+      const newHosts = new Set(Object.keys(gitlabs.newValue));
+      const oldHosts = new Set(Object.keys(gitlabs.oldValue));
 
       const vanishedHosts = new Set([...oldHosts].filter(x => !newHosts.has(x)));
 
