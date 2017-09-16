@@ -1,9 +1,10 @@
 export default class Server {
-  constructor() {
-    
+  constructor(instanceManager) {
+    this.instanceManager = instanceManager;
   }
 
   async record(time, location) {
-    console.log('Recording time', time, location);
+    const key = this.instanceManager.getApiKey(location.instance);
+    console.log('Recording time', time, location, key);
   }
 }
