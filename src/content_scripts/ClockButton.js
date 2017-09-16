@@ -66,7 +66,7 @@ InstanceManager.initialize(new ChromeAdapter(chrome)).then((instanceManager) => 
     if (response.status === 'ok') {
       clockView.resetClock(new Clock());
     } else {
-      console.error(response);
+      console.error(response); // eslint-disable-line no-console
     }
   };
 });
