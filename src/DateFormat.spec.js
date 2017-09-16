@@ -10,8 +10,8 @@ describe('DateFormat', function () {
     expect(DateFormat.precise(7.0003)).to.equal('7s');
   });
 
-  it('Formats left-padded minutes without seconds', function () {
-    expect(DateFormat.precise(60 * 5 + 7)).to.equal('0:05');
+  it('Formats minutes without seconds', function () {
+    expect(DateFormat.precise(60 * 11 + 7)).to.equal('0:11');
   });
 
   it('Formats hours with left-padded minutes without seconds', function () {
