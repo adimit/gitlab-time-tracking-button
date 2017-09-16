@@ -1,9 +1,14 @@
 import fireEvent from './Events';
 
 export default class Clock {
-  constructor(timeLog, currentTime) {
-    this.timeLog = timeLog || [];
-    this.currentTime = currentTime || null;
+  constructor(clockData) {
+    this.timeLog = [];
+    this.currentTime = null;
+    if (clockData !== undefined) {
+      const { timeLog, currentTime } = clockData;
+      this.timeLog = timeLog;
+      this.currentTime = currentTime;
+    }
     this.subscribers = [];
     this.tick = null;
   }
