@@ -10,7 +10,6 @@ import PostOffice from './PostOffice';
 const urlParser = new UrlParser(window.location.href);
 const issueData = urlParser.getAllData();
 const postOffice = new PostOffice(chrome, issueData);
-const clockView = new ClockViewModel(new Clock());
 
 const startStopButton = document.createElement('div');
 startStopButton.classList.add('start-stop-button');
@@ -38,61 +37,68 @@ ourContainer.append(startStopButton);
 ourContainer.append(saveButton);
 ourContainer.append(trashButton);
 
-clockView.subscribe((rawTime) => {
-  timeDisplay.textContent = DateFormat.precise(rawTime);
-});
-
-clockView.onStart(() => {
-  startStopButton.textContent = 'stop';
-  startStopButton.classList.remove('stopped');
-  startStopButton.classList.add('started');
-  saveButton.classList.remove('invisible');
-  trashButton.classList.remove('invisible');
-});
-
-clockView.onStop(() => {
-  startStopButton.textContent = 'start';
-  startStopButton.classList.remove('started');
-  startStopButton.classList.add('stopped');
-});
-
-clockView.onChangeState(async (rawTime) => {
-  timeDisplay.textContent = DateFormat.precise(rawTime);
-  if (rawTime > 0) {
-    saveButton.classList.remove('invisible');
-    trashButton.classList.remove('invisible');
-  } else {
-    saveButton.classList.add('invisible');
-    trashButton.classList.add('invisible');
-  }
-});
-
-InstanceManager.initialize(new ChromeAdapter(chrome)).then((instanceManager) => {
-  const server = new Server(instanceManager);
-
-  startStopButton.onclick = () => {
-    clockView.toggle();
-    postOffice.updateClock(clockView.getClock());
-  };
-
-  trashButton.onclick = () => {
-    clockView.resetClock(new Clock());
-    postOffice.trashClock();
-  };
-
-  saveButton.onclick = async () => {
-    const time = clockView.getTime();
-    clockView.stop();
-    const response = await server.record(time, issueData);
-    if (response.status === 'ok') {
-      clockView.resetClock(new Clock());
-      postOffice.trashClock();
-    } else {
-      console.error(response); // eslint-disable-line no-console
-    }
-  };
-});
-
 const dueDateContainer = document.querySelector('.block.due_date');
 dueDateContainer.before(ourContainer);
-clockView.changeState();
+
+postOffice.getClock().then((savedClock) => {
+  const baseClock = savedClock === null ? new Clock() : new Clock(savedClock);
+  console.log('restored clock', baseClock);
+  const clockView = new ClockViewModel(baseClock);
+
+  clockView.subscribe((rawTime) => {
+    timeDisplay.textContent = DateFormat.precise(rawTime);
+  });
+
+  clockView.onStart(() => {
+    startStopButton.textContent = 'stop';
+    startStopButton.classList.remove('stopped');
+    startStopButton.classList.add('started');
+    saveButton.classList.remove('invisible');
+    trashButton.classList.remove('invisible');
+  });
+
+  clockView.onStop(() => {
+    startStopButton.textContent = 'start';
+    startStopButton.classList.remove('started');
+    startStopButton.classList.add('stopped');
+  });
+
+  clockView.onChangeState(async (rawTime) => {
+    timeDisplay.textContent = DateFormat.precise(rawTime);
+    if (rawTime > 0) {
+      saveButton.classList.remove('invisible');
+      trashButton.classList.remove('invisible');
+    } else {
+      saveButton.classList.add('invisible');
+      trashButton.classList.add('invisible');
+    }
+  });
+
+  InstanceManager.initialize(new ChromeAdapter(chrome)).then((instanceManager) => {
+    const server = new Server(instanceManager);
+
+    startStopButton.onclick = () => {
+      clockView.toggle();
+      postOffice.updateClock(clockView.getClock());
+    };
+
+    trashButton.onclick = () => {
+      clockView.resetClock(new Clock());
+      postOffice.trashClock();
+    };
+
+    saveButton.onclick = async () => {
+      const time = clockView.getTime();
+      clockView.stop();
+      const response = await server.record(time, issueData);
+      if (response.status === 'ok') {
+        clockView.resetClock(new Clock());
+        postOffice.trashClock();
+      } else {
+        console.error(response); // eslint-disable-line no-console
+      }
+    };
+  });
+
+  clockView.changeState();
+});
