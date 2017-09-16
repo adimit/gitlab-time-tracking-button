@@ -15,6 +15,11 @@ export default class ClockViewModel {
     this.changeState();
   }
 
+  stop() {
+    this.clock.stop();
+    this.changeState();
+  }
+
   subscribeToClock() {
     const clockModel = this;
     this.clock.subscribe(time => fireEvent(clockModel.onTickHandlers, time));

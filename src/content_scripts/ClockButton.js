@@ -72,6 +72,7 @@ InstanceManager.initialize(new ChromeAdapter(chrome)).then((instanceManager) => 
   trashButton.onclick = () => clockView.resetClock(new Clock());
   saveButton.onclick = async () => {
     const time = clockView.getTime();
+    clockView.stop();
     const response = await server.record(time, issueData);
     if (response.status === 'ok') {
       clockView.resetClock(new Clock());
