@@ -1,12 +1,65 @@
+$green: rgb(26, 170, 85);
+$red: rgb(252, 148, 3);
+$blue: #88D;
+
 @mixin time-tracking-button {
-  color: red;
+  display: inline-block;
+  touch-action: manipulation;
+  cursor: pointer;
+  white-space: nowrap;
+  padding: 6px 16px;
+  user-select: none;
+  background-image: none;
+  height: 30px;
+  padding: 5px 10px;
+  font-size: 14px;
+  line-height: 1.5;
+  border: 1px solid;
+  padding: 6 10 10 6;
+  border-radius: 3px;
+
+  transition: background-color 100ms linear, color 100ms linear, box-shadow 100ms linear, border-color 100ms linear;
+
+  &:focus {
+    outline:thin dotted;
+    outline:5px auto -webkit-focus-ring-color;
+    outline-offset:-2px
+  }
+}
+
+@mixin button-color($color) {
+  border-color: $color;
+  color: $color;
+
+  &:hover {
+    background: $color;
+    color: white;
+    border: 1px solid $color;
+    border-radius: 3px;
+  }
+}
+
+.green {
+  @include button-color($green)
+}
+
+.stopped {
+  @include button-color($red)
+}
+
+.started {
+  @include button-color($blue)
 }
 
 .start-stop-button {
   @include time-tracking-button;
+
 }
 
 .save-time-button {
   @include time-tracking-button;
+}
+
+.invisible {
   visibility: hidden;
 }
