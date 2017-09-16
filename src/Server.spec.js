@@ -1,11 +1,8 @@
 /* eslint-disable func-names, prefer-arrow-callback */
 import { beforeEach, expect, describe, it } from 'mocha';
 import sinon from 'sinon';
-import sinonTestFactory from 'sinon-test';
 
 import Server from './Server';
-
-const sinonTest = sinonTestFactory(sinon);
 
 describe('Server API', function () {
   let xhr;
