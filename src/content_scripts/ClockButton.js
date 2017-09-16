@@ -54,11 +54,14 @@ clockView.onStop(() => {
   startStopButton.classList.add('stopped');
 });
 
-clockView.onChangeState((rawTime) => {
+clockView.onChangeState(async (rawTime) => {
   timeDisplay.textContent = DateFormat.precise(rawTime);
   if (rawTime > 0) {
     saveButton.classList.remove('invisible');
     trashButton.classList.remove('invisible');
+    const clockData = clockView.getClock();
+    const response = await chrome.runtime.sendMessage({ clockData, issueData });
+    console.log(response);
   } else {
     saveButton.classList.add('invisible');
     trashButton.classList.add('invisible');

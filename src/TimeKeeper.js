@@ -3,8 +3,8 @@ export default class TimeKeeper {
     this.chrome = chrome;
   }
 
-  async processMessage(message, sender, sendResponse) {
+  async processMessage(message, sender) {
     console.log('got message', message, sender);
-    sendResponse({ answer: 'got the message!' });
+    return { answer: 'got the message!' };
   }
 }
