@@ -6,7 +6,7 @@ export default class TimeKeeper {
     this.clocks = {};
   }
 
-  async processMessage(message, sender) {
+  async processMessage(message) {
     const { action, issueData, clockData } = message;
     const key = makeKey(issueData);
     switch (action) {
@@ -20,13 +20,11 @@ export default class TimeKeeper {
   async updateClock(key, clockData) {
     this.clocks[key] = clockData;
     await this.chrome.set({ clocks: this.clocks });
-    console.log('clocks', this.clocks);
   }
 
   async trashClock(key) {
     delete this.clocks[key];
     await this.chrome.set({ clocks: this.clocks });
-    console.log('clocks', this.clocks);
   }
 
   async giveClock(key) {
