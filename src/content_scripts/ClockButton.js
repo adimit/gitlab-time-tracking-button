@@ -21,7 +21,6 @@ saveButton.textContent = 'save';
 
 const timeDisplay = document.createElement('span');
 timeDisplay.classList.add('time-display');
-timeDisplay.textContent = '0:00';
 
 issueClock.subscribe((rawTime) => {
   timeDisplay.textContent = DateFormat.precise(rawTime);
