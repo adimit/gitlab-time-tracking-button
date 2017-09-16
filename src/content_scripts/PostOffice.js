@@ -6,7 +6,6 @@ const firefoxSendMessage = (chrome, data) => {
 
 const chromeSendMessage = (chrome, data) => new Promise((resolve, reject) => {
   chrome.runtime.sendMessage(undefined, data, undefined, (response) => {
-    console.log('got message back', response);
     if (!response && chrome.runtime.lastError) {
       reject(chrome.runtime.lastError);
     } else {

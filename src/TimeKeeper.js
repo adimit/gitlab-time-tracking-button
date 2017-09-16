@@ -14,7 +14,6 @@ export default class TimeKeeper {
   }
 
   async processMessageChrome(message, sender, sendResponse) {
-    console.log('process message chrome');
     const { action, issueData, clockData } = message;
     const key = makeKey(issueData);
     let answer = null;
@@ -25,13 +24,10 @@ export default class TimeKeeper {
       default: throw Error(`Unknown action ${action}`);
     }
 
-    console.log('and the answer is', answer);
-
     sendResponse(answer);
   }
 
   async processMessageFF(message) {
-    console.log('process message firefox');
     const { action, issueData, clockData } = message;
     const key = makeKey(issueData);
     switch (action) {
