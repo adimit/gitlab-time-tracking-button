@@ -21,6 +21,7 @@ export default class ClockViewModel {
   }
 
   resetClock(clock) {
+    this.clock.destroy();
     this.clock = clock;
     this.subscribeToClock();
     this.changeState();

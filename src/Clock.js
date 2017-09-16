@@ -39,6 +39,14 @@ export default class Clock {
     clearInterval(this.tick);
   }
 
+  destroy() {
+    this.stopTicks();
+    this.timeLog = [];
+    this.currentTime = null;
+    this.subscribers = [];
+    this.tick = null;
+  }
+
   isRunning() {
     return this.currentTime !== null;
   }
