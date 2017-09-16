@@ -6,6 +6,10 @@ import { expect } from 'chai';
 import DateFormat from './DateFormat';
 
 describe('DateFormat', function () {
+  it('Renders the empty string when time === 0', function () {
+    expect(DateFormat.precise(0)).to.equal('');
+  });
+
   it('Formats floating points to integer seconds', function () {
     expect(DateFormat.precise(7.0003)).to.equal('7s');
   });

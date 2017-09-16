@@ -2,6 +2,10 @@
 
 export default class DateFormat {
   static precise(time) {
+    if (time === 0) {
+      return '';
+    }
+
     if (time < 60) {
       return `${Math.floor(time)}s`;
     }
