@@ -4,13 +4,18 @@ export default class Clock {
   constructor(clockData) {
     this.timeLog = [];
     this.currentTime = null;
-    if (clockData !== undefined) {
+    if (clockData !== undefined && clockData !== null) {
       const { timeLog, currentTime } = clockData;
       this.timeLog = timeLog;
       this.currentTime = currentTime;
     }
     this.subscribers = [];
     this.tick = null;
+
+    // in case we restored from a running clock
+    if (this.isRunning()) {
+      this.startTicks();
+    }
   }
 
   start() {
