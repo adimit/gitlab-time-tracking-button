@@ -29,6 +29,9 @@ export default class TimeKeeper {
 
   async giveClock(key) {
     const { clocks } = await this.chrome.getOrDefault('clocks', { clocks: {} });
-    return clocks[key] || null;
+    if (clocks !== undefined && clocks[key]) {
+      return clocks[key];
+    }
+    return null;
   }
 }
