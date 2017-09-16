@@ -1,9 +1,9 @@
 import fireEvent from './Events';
 
 export default class Clock {
-  constructor(timeLog) {
+  constructor(timeLog, currentTime) {
     this.timeLog = timeLog || [];
-    this.currentTime = null;
+    this.currentTime = currentTime || null;
     this.subscribers = [];
     this.tick = null;
   }
@@ -83,5 +83,12 @@ export default class Clock {
 
   subscribe(f) {
     this.subscribers.push(f);
+  }
+
+  serialize() {
+    return {
+      currentTime: this.currentTime,
+      timeLog: this.timeLog,
+    };
   }
 }

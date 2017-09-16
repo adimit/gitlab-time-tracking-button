@@ -81,4 +81,17 @@ describe('Clock', function () {
     sinon.assert.callCount(spy, interval);
     fakeTime.restore();
   }));
+
+  it('allows for serialisation and deserialisation', function () {
+    const fakeTime = sinon.useFakeTimers();
+    const clock = new Clock();
+
+    clock.start();
+    fakeTime.tick(7 * 1000);
+    const { timeLog, currentTime } = clock.serialize();
+
+    const newClock = new Clock(timeLog, currentTime);
+    expect(newClock.isRunning()).to.be.true;
+    expect(newClock.getTime()).to.equal(7);
+  });
 });
