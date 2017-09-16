@@ -51,8 +51,4 @@ describe('Server API', function () {
     expect(response.status).to.equal('ok');
     expect(response.totalTimeSpent).to.equal(3600);
   });
-
-  it('Returns useful error code on failure', sinonTest(function () {
-    
-  }));
 });
