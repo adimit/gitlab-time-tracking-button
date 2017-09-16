@@ -1,8 +1,9 @@
+import UrlParser from './UrlParser';
+
 export default class TabListener {
   constructor(chromeTabs, instanceManager) {
     this.chromeTabs = chromeTabs;
     this.instanceManager = instanceManager;
-    this.matchUrl = /\/([^/]+)\/([^/]+)\/issues\/(\d+)/;
   }
 
   updateTabs(info) {
@@ -12,9 +13,10 @@ export default class TabListener {
       return;
     }
 
-    const [match, group, project, issue] = info.url.match(this.matchUrl) || [];
+    const parser = new UrlParser(info.url);
+    const { group, project, issue } = parser.getAllData();
 
-    if (match && group && project && issue) {
+    if (group && project && issue) {
       this.insertAssetsInto(info.id);
     }
   }

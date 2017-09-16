@@ -1,4 +1,5 @@
 import fireEvent from './Events';
+import UrlParser from './UrlParser';
 
 export default class InstanceManager {
   constructor(instances) {
@@ -33,9 +34,8 @@ export default class InstanceManager {
       return false;
     }
 
-    const parser = document.createElement('a');
-    parser.href = url;
-    const key = `${parser.protocol}//${parser.host}/`;
+    const parser = new UrlParser(url);
+    const key = parser.getInstanceKey();
     return Object.keys(this.instances).includes(key);
   }
 }
