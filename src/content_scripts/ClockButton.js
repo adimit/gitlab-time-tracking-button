@@ -65,6 +65,8 @@ InstanceManager.initialize(new ChromeAdapter(chrome)).then((instanceManager) => 
     const response = await server.record(time, issueData);
     if (response.status === 'ok') {
       clockView.resetClock(new Clock());
+    } else {
+      console.error(response);
     }
   };
 });
