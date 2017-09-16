@@ -50,6 +50,7 @@ clockView.onStop(() => {
 });
 
 clockView.onChangeState((rawTime) => {
+  timeDisplay.textContent = DateFormat.precise(rawTime);
   if (rawTime > 0) {
     saveButton.classList.remove('invisible');
   } else {
@@ -61,8 +62,10 @@ InstanceManager.initialize(new ChromeAdapter(chrome)).then((instanceManager) => 
   const server = new Server(instanceManager);
   saveButton.onclick = async () => {
     const time = clockView.getTime();
-    clockView.resetClock(new Clock());
-    await server.record(time, issueData);
+    const response = await server.record(time, issueData);
+    if (response.status === 'ok') {
+      clockView.resetClock(new Clock());
+    }
   };
 });
 

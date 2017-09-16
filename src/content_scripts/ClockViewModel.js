@@ -7,8 +7,7 @@ export default class ClockViewModel {
     this.onStopHandlers = [];
     this.onTickHandlers = [];
     this.onChangeStateHandlers = [];
-    const clockModel = this;
-    this.clock.subscribe(time => fireEvent(clockModel.onTickHandlers, time));
+    this.subscribeToClock();
   }
 
   toggle() {
@@ -16,8 +15,14 @@ export default class ClockViewModel {
     this.changeState();
   }
 
+  subscribeToClock() {
+    const clockModel = this;
+    this.clock.subscribe(time => fireEvent(clockModel.onTickHandlers, time));
+  }
+
   resetClock(clock) {
     this.clock = clock;
+    this.subscribeToClock();
     this.changeState();
   }
 
