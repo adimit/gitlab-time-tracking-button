@@ -16,6 +16,15 @@ export default class ClockViewModel {
     this.changeState();
   }
 
+  resetClock(clock) {
+    this.clock = clock;
+    this.changeState();
+  }
+
+  getTime() {
+    return this.clock.getTime();
+  }
+
   changeState() {
     fireEvent(this.onChangeStateHandlers, this.clock.getTime());
     if (this.clock.isRunning()) {

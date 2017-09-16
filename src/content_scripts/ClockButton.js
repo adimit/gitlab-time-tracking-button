@@ -1,9 +1,13 @@
 import Clock from '../Clock';
 import DateFormat from '../DateFormat';
 import ClockViewModel from './ClockViewModel';
+import Server from './../Server';
+import UrlParser from '../UrlParser';
 
-const issueClock = new Clock();
-const clockView = new ClockViewModel(issueClock);
+const clockView = new ClockViewModel(new Clock());
+const server = new Server();
+const urlParser = new UrlParser(window.location.href);
+const issueData = urlParser.getAllData();
 
 const startStopButton = document.createElement('div');
 startStopButton.classList.add('start-stop-button');
@@ -51,6 +55,12 @@ clockView.onChangeState((rawTime) => {
     saveButton.classList.add('invisible');
   }
 });
+
+saveButton.onclick = async () => {
+  const time = clockView.getTime();
+  clockView.resetClock(new Clock());
+  await server.record(time, issueData);
+};
 
 const dueDateContainer = document.querySelector('.block.due_date');
 dueDateContainer.before(ourContainer);
