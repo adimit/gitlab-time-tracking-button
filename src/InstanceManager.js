@@ -38,4 +38,8 @@ export default class InstanceManager {
     const key = parser.getInstanceKey();
     return Object.keys(this.instances).includes(key);
   }
+
+  getApiKey(instance) {
+    return this.instances[instance] || null;
+  }
 }

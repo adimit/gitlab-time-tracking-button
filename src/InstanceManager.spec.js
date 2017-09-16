@@ -8,12 +8,21 @@ import InstanceManager from './InstanceManager';
 const sinonTest = sinonTestFactory(sinon);
 
 describe('InstanceManager', function () {
-  describe('storage listener', function () {
-    const createInstanceManager = (instances) => {
-      const myInstances = instances || {};
-      return new InstanceManager(myInstances);
-    };
+  const createInstanceManager = (instances) => {
+    const myInstances = instances || {};
+    return new InstanceManager(myInstances);
+  };
 
+  it('returns correct api keys', function () {
+    const instanceManager = createInstanceManager({
+      'https://example.com/': 'foo',
+    });
+
+    expect(instanceManager.getApiKey('https://example.com/')).to.equal('foo');
+    expect(instanceManager.getApiKey('someNonExistentApi')).to.be.null;
+  });
+
+  describe('storage listener', function () {
     it('recognizes new instance after insertion', function () {
       // given
       const instanceManager = createInstanceManager();
