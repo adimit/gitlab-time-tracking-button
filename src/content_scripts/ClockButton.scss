@@ -47,6 +47,10 @@ $blue: #88D;
   @include button-color($red)
 }
 
+.red {
+  @include button-color($red)
+}
+
 .started {
   @include button-color($blue)
 }
@@ -54,6 +58,10 @@ $blue: #88D;
 .start-stop-button {
   @include time-tracking-button;
 
+}
+
+.trash-time-button {
+  @include time-tracking-button;
 }
 
 .save-time-button {
