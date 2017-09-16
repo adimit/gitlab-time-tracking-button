@@ -41,9 +41,7 @@ const dueDateContainer = document.querySelector('.block.due_date');
 dueDateContainer.before(ourContainer);
 
 postOffice.getClock().then((savedClock) => {
-  const baseClock = savedClock === null ? new Clock() : new Clock(savedClock);
-  console.log('restored clock', baseClock);
-  const clockView = new ClockViewModel(baseClock);
+  const clockView = new ClockViewModel(new Clock(savedClock));
 
   clockView.subscribe((rawTime) => {
     timeDisplay.textContent = DateFormat.precise(rawTime);
