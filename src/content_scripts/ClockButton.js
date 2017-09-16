@@ -3,9 +3,10 @@ import DateFormat from '../DateFormat';
 import ClockViewModel from './ClockViewModel';
 import Server from './../Server';
 import UrlParser from '../UrlParser';
+import ChromeAdapter from '../ChromeAdapter';
+import InstanceManager from '../InstanceManager';
 
 const clockView = new ClockViewModel(new Clock());
-const server = new Server();
 const urlParser = new UrlParser(window.location.href);
 const issueData = urlParser.getAllData();
 
@@ -56,11 +57,14 @@ clockView.onChangeState((rawTime) => {
   }
 });
 
-saveButton.onclick = async () => {
-  const time = clockView.getTime();
-  clockView.resetClock(new Clock());
-  await server.record(time, issueData);
-};
+InstanceManager.initialize(new ChromeAdapter(chrome)).then((instanceManager) => {
+  const server = new Server(instanceManager);
+  saveButton.onclick = async () => {
+    const time = clockView.getTime();
+    clockView.resetClock(new Clock());
+    await server.record(time, issueData);
+  };
+});
 
 const dueDateContainer = document.querySelector('.block.due_date');
 dueDateContainer.before(ourContainer);
