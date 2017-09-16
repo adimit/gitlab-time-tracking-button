@@ -24,7 +24,7 @@ export default class TimeKeeper {
   }
 
   async trashClock(key) {
-    this.clocks[key] = null;
+    delete this.clocks[key];
     await this.chrome.set({ clocks: this.clocks });
     console.log('clocks', this.clocks);
   }
