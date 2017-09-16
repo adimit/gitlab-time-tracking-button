@@ -9,8 +9,10 @@ const chromeTabs = new ChromeTabs(chrome);
 const timeKeeper = new TimeKeeper(chromeAdapter);
 
 chrome.runtime.onMessage.addListener(
-  (message, sender, sendResponse) => timeKeeper.processMessage(message, sender, sendResponse),
-);
+  async (message, sender, sendResponse) => {
+    await timeKeeper.processMessage(message, sender, sendResponse);
+    return true;
+  });
 
 InstanceManager.initialize(chromeAdapter).then((instanceManager) => {
   const tabListener = new TabListener(chromeTabs, instanceManager);

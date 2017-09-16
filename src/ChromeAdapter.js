@@ -1,6 +1,8 @@
+import isFirefox from './UserAgent';
+
 export default class ChromeAdapter {
   constructor(myChrome) {
-    this.isFirefox = navigator.userAgent.indexOf('Chrome') === -1;
+    this.isFirefox = isFirefox();
     this.chrome = myChrome;
   }
 

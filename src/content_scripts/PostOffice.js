@@ -1,13 +1,33 @@
-const sendMessage = (chrome, data) => chrome.runtime.sendMessage(data);
+import isFirefox from '../UserAgent';
+
+const firefoxSendMessage = (chrome, data) => {
+  chrome.runtime.sendMessage(data);
+};
+
+const chromeSendMessage = (chrome, data) => new Promise((resolve, reject) => {
+  chrome.runtime.sendMessage(undefined, data, undefined, (response) => {
+    console.log('got message back', response);
+    if (!response && chrome.runtime.lastError) {
+      reject(chrome.runtime.lastError);
+    } else {
+      resolve(response);
+    }
+  });
+});
 
 export default class PostOffice {
   constructor(chrome, issueData) {
     this.chrome = chrome;
     this.issueData = issueData;
+    if (isFirefox()) {
+      this.sendMessage = firefoxSendMessage;
+    } else {
+      this.sendMessage = chromeSendMessage;
+    }
   }
 
   updateClock(clockData) {
-    return sendMessage(
+    return this.sendMessage(
       this.chrome,
       {
         action: 'update',
@@ -18,7 +38,7 @@ export default class PostOffice {
   }
 
   trashClock() {
-    return sendMessage(
+    return this.sendMessage(
       this.chrome,
       {
         action: 'trash',
@@ -28,7 +48,7 @@ export default class PostOffice {
   }
 
   getClock() {
-    return sendMessage(
+    return this.sendMessage(
       this.chrome,
       {
         action: 'get',
