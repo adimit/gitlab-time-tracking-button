@@ -45,6 +45,10 @@ export default class ClockViewModel {
     }
   }
 
+  getClock() {
+    return this.clock.serialize();
+  }
+
   hasTime() {
     return this.clock.getTime() > 0;
   }
