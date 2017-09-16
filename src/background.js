@@ -6,8 +6,7 @@ import ChromeTabs from './ChromeTabs';
 const chromeAdapter = new ChromeAdapter(chrome);
 const chromeTabs = new ChromeTabs(chrome);
 
-chromeAdapter.getOrDefault('gitlabs', { gitlabs: {} }).then(({ gitlabs }) => {
-  const instanceManager = new InstanceManager(gitlabs);
+InstanceManager.initialize(chromeAdapter).then((instanceManager) => {
   const tabListener = new TabListener(chromeTabs, instanceManager);
 
   chrome.storage.onChanged.addListener(changes => instanceManager.updateStorage(changes));

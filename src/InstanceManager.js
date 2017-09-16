@@ -42,4 +42,9 @@ export default class InstanceManager {
   getApiKey(instance) {
     return this.instances[instance] || null;
   }
+
+  static async initialize(chrome) {
+    const { gitlabs } = await chrome.getOrDefault('gitlabs', { gitlabs: {} });
+    return new this(gitlabs);
+  }
 }
