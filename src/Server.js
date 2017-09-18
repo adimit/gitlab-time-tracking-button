@@ -1,9 +1,6 @@
-/*
-  curl --request POST --header "PRIVATE-TOKEN: 9koXpg98eAheJpvBs5tK" https://gitlab.example.com/api/v4/projects/5/issues/93/add_spent_time?duration=1h
-*/
-
 /**
- * Call the server the token as header, expect a json body in return.
+ * Calls the server, sending the token in the header.
+ * Parses the json answer
  *
  * @param {string} url The API endpoint to call
  * @param {string} token The token
@@ -13,7 +10,6 @@
 const postGitlab = (url, token) => new Promise((resolve, reject) => {
   const xhr = new XMLHttpRequest();
   xhr.open('POST', url);
-  xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.setRequestHeader('PRIVATE-TOKEN', token);
   xhr.onload = () => {
     if (xhr.status === 200 || xhr.status === 201) {
