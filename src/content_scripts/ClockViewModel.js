@@ -1,5 +1,9 @@
 import fireEvent from '../Events';
 
+const subscribeToClock = (clock, clockModel) => {
+  clock.subscribe(time => fireEvent(clockModel.onTickHandlers, time));
+};
+
 export default class ClockViewModel {
   constructor(clock) {
     this.clock = clock;
@@ -7,7 +11,7 @@ export default class ClockViewModel {
     this.onStopHandlers = [];
     this.onTickHandlers = [];
     this.onChangeStateHandlers = [];
-    this.subscribeToClock();
+    subscribeToClock(clock, this);
   }
 
   toggle() {
@@ -20,15 +24,10 @@ export default class ClockViewModel {
     this.changeState();
   }
 
-  subscribeToClock() {
-    const clockModel = this;
-    this.clock.subscribe(time => fireEvent(clockModel.onTickHandlers, time));
-  }
-
   resetClock(clock) {
     this.clock.destroy();
     this.clock = clock;
-    this.subscribeToClock();
+    subscribeToClock(clock, this);
     this.changeState();
   }
 
