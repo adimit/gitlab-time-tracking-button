@@ -3,7 +3,6 @@ image: node:8
 stages:
   - test
   - bundle
-  - sign
 
 before_script:
   - npm install
@@ -25,7 +24,7 @@ test:unit:
   tags:
     - chromium
 
-bundle:
+chrome:
   stage: bundle
   script:
     - npm run build
@@ -33,10 +32,15 @@ bundle:
   artifacts:
     untracked: true
     paths:
-      - "dist/*.zip"
+      - "*.zip"
 
-sign:
-  stage: sign
+firefox:
+  stage: bundle
   script:
-    - echo "signing firefox addon"
-    - ls dist
+    - node_modules/web-ext/bin/web-ext sign -a . -s addon --api-key=${MOZILLA_USER} --api-secret=${MOZILLA_KEY} --id=${MOZILLA_ID}
+  only:
+    - tags
+  artifacts:
+    untracked: true
+    paths:
+      - "*.xpi"

@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "webpack",
-    "bundle": "web-ext -s ./addon -a dist build --overwrite-dest",
+    "bundle": "web-ext -s ./addon -a . build --overwrite-dest",
     "clean": "rm -rf addon/*",
     "lint": "eslint src --ext .js,.json",
     "lint:fix": "npm run lint -- --fix",
@@ -18,7 +18,8 @@
     "watch:test": "karma  start --browsers ChromiumHeadless --single-run=false",
     "watch:debug": "karma start --browsers Chromium --single-run=false",
     "webext:lint": "web-ext -s ./addon lint",
-    "webext:run": "web-ext -s ./addon run --verbose"
+    "webext:run": "web-ext -s ./addon run --verbose",
+    "webext:sign": "web-ext -s ./addon -a . sign --api-key=${MOZILLA_USER} --api-secret=${MOZILLA_KEY} --id=${MOZILLA_ID}"
   },
   "license": "GPL-3.0",
   "devDependencies": {
