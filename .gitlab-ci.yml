@@ -38,7 +38,7 @@ firefox:
   stage: bundle
   script:
     - npm run build
-    - npm run webext:sign
+    - node_modules/web-ext/bin/web-ext sign -a . -s addon --api-key=${MOZILLA_USER} --api-secret=${MOZILLA_KEY} --id=${MOZILLA_ID}
   only:
     - tags
   artifacts:

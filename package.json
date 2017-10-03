@@ -18,8 +18,7 @@
     "watch:test": "karma  start --browsers ChromiumHeadless --single-run=false",
     "watch:debug": "karma start --browsers Chromium --single-run=false",
     "webext:lint": "web-ext -s ./addon lint",
-    "webext:run": "web-ext -s ./addon run --verbose",
-    "webext:sign": "web-ext -s ./addon -a . sign --api-key=${MOZILLA_USER} --api-secret=${MOZILLA_KEY} --id=${MOZILLA_ID}"
+    "webext:run": "web-ext -s ./addon run --verbose"
   },
   "license": "GPL-3.0",
   "devDependencies": {
