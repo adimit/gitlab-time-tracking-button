@@ -1,4 +1,5 @@
 import isFirefox from '../UserAgent';
+import fireEvent from '../Events';
 
 const firefoxSendMessage = (chrome, data) => chrome.runtime.sendMessage(data);
 
@@ -21,6 +22,8 @@ export default class PostOffice {
     } else {
       this.sendMessage = chromeSendMessage;
     }
+
+    this.handlers = { start: [], stop: [], trash: [] };
   }
 
   updateClock(clockData) {
@@ -52,5 +55,17 @@ export default class PostOffice {
         issueData: this.issueData,
       },
     );
+  }
+
+  onStart(f) {
+    this.handlers.start.push(f);
+  }
+
+  onStop(f) {
+    this.handlers.stop.push(f);
+  }
+
+  onTrash(f) {
+    this.handlers.trash.push(f);
   }
 }

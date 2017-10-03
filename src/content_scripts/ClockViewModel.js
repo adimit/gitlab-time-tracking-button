@@ -13,7 +13,6 @@ export default class ClockViewModel {
     this.onTickHandlers = [
       rawTime => clockView.render(rawTime),
     ];
-    this.onChangeStateHandlers = [];
     subscribeToClock(clock, this);
     clockView.render(clock.getTime());
   }
@@ -30,33 +29,25 @@ export default class ClockViewModel {
 
   toggle() {
     this.clock.toggle();
-    this.changeState();
   }
 
   stop() {
     this.clock.stop();
-    this.changeState();
+  }
+
+  start() {
+    this.clock.start();
   }
 
   resetClock(clock) {
     this.clock.destroy();
     this.clock = clock;
     subscribeToClock(clock, this);
-    this.clockView.reset();
-    this.changeState();
+    this.clockView.render(0);
   }
 
   getTime() {
     return this.clock.getTime();
-  }
-
-  changeState() {
-    fireEvent(this.onChangeStateHandlers, this.clock.getTime());
-    if (this.clock.isRunning()) {
-      fireEvent(this.onStartHandlers, null);
-    } else {
-      fireEvent(this.onStopHandlers, null);
-    }
   }
 
   getClock() {

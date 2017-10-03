@@ -1,8 +1,7 @@
-const createButton = (text, f) => {
+const createButton = (text) => {
   const button = document.createElement('div');
   button.classList.add(`time-tracking-${text}-button`);
   button.textContent = text;
-  button.onClick(() => f());
   return button;
 };
 
@@ -29,16 +28,23 @@ const renderFresh = (container, startButton) => {
 };
 
 export default class ButtonView {
-  constructor(container, save, start, stop, trash) {
-    this.startButton = createButton('start', start);
-    this.trashButton = createButton('trash', trash);
-    this.stopButton = createButton('stop', stop);
-    this.saveButton = createButton('save', save);
+  constructor(container) {
     this.container = container;
+    this.startButton = createButton('start');
+    this.stopButton = createButton('stop');
+    this.saveButton = createButton('save');
+    this.trashButton = createButton('trash');
+  }
+
+  registerListeners(start, stop, save, trash) {
+    this.startButton.onclick = () => start();
+    this.stopButton.onclick = () => stop();
+    this.saveButton.onclick = () => save();
+    this.trashButton.onclick = () => trash();
   }
 
   render(state) {
-    emptyContainer();
+    emptyContainer(this.container);
     switch (state) {
       case 'running':
         renderRunning(this.container, this.stopButton, this.saveButton, this.trashButton);
