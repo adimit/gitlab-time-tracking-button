@@ -1,0 +1,41 @@
+image: node:8
+
+stages:
+  - test
+  - bundle
+  - sign
+
+before_script:
+  - npm install
+
+cache:
+  paths:
+    - node_modules/
+
+test:lint:
+  stage: test
+  script:
+    - npm run lint
+
+test:unit:
+  stage: test
+  script:
+    - npm run test
+  tags:
+    chromium
+
+bundle:
+  stage: bundle
+  script:
+    - npm run build
+    - npm run bundle
+  artifacts:
+    untracked: true
+    paths:
+      - "dist/*.zip"
+
+sign:
+  stage: sign
+  script:
+    - echo "signing firefox addon"
+    - ls dist
