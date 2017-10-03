@@ -71,7 +71,9 @@
     "web-ext": "^2.0.0",
     "webpack": "^3.5.3"
   },
-  "dependencies": {},
+  "dependencies": {
+    "feather-icons": "^3.2.2"
+  },
   "permissions": {
     "multiprocess": true
   }
