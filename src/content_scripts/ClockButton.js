@@ -23,9 +23,6 @@ if (document.getElementById(clockContainerId) === null) {
   saveButton.classList.add('green');
   saveButton.textContent = 'save';
 
-  const timeDisplay = document.createElement('span');
-  timeDisplay.classList.add('time-display');
-
   const trashButton = document.createElement('div');
   trashButton.classList.add('trash-time-button');
   trashButton.classList.add('red');
@@ -36,7 +33,14 @@ if (document.getElementById(clockContainerId) === null) {
   ourContainer.classList.add('block');
   ourContainer.classList.add('clock_container'); // gitlab does it this way…
 
-  ourContainer.append(timeDisplay);
+  const timeDisplayContainer = document.createElement('div');
+  timeDisplayContainer.setAttribute('id', 'time-tracking-time-display-container');
+  const buttonContainer = document.createElement('div');
+  buttonContainer.setAttribute('id', 'time-tracking-button-container');
+
+  ourContainer.append(timeDisplayContainer);
+  ourContainer.append(buttonContainer);
+
   ourContainer.append(startStopButton);
   ourContainer.append(saveButton);
   ourContainer.append(trashButton);
@@ -45,7 +49,7 @@ if (document.getElementById(clockContainerId) === null) {
   dueDateContainer.before(ourContainer);
 
   postOffice.getClock().then((savedClock) => {
-    const clockView = new ClockView(timeDisplay);
+    const clockView = new ClockView(timeDisplayContainer);
     const clockViewModel = new ClockViewModel(new Clock(savedClock), clockView);
 
     clockViewModel.onStart(() => {
