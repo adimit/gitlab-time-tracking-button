@@ -44,6 +44,7 @@ export default class ButtonViewModel {
 
   save() {
     fireEvent(this.handlers.save, undefined);
+    this.buttonView.render('fresh');
   }
 
   trash() {
