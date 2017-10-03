@@ -10,18 +10,19 @@ export default class TimeTrackingViewModel {
 
     buttonViewModel.onStart(() => this.start());
     buttonViewModel.onStop(() => this.stop());
-    buttonViewModel.onSave(() => this.save());
+    buttonViewModel.onSave(callbacks => this.save(callbacks));
     buttonViewModel.onTrash(() => this.trash());
   }
 
-  async save() {
+  async save({ onSuccess, onFailure }) {
     await this.stop();
     const time = this.clockViewModel.getTime();
     const response = await this.server.record(time, this.issueData);
     if (response.status === 'ok') {
       await this.trash();
+      onSuccess();
     } else {
-      console.error(response); // eslint-disable-line no-console
+      onFailure(response);
     }
   }
 

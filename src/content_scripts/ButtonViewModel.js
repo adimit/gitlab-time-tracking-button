@@ -43,8 +43,12 @@ export default class ButtonViewModel {
   }
 
   save() {
-    fireEvent(this.handlers.save, undefined);
-    this.buttonView.render('fresh');
+    const buttonView = this.buttonView;
+    fireEvent(this.handlers.save, {
+      onSuccess: () => buttonView.render('fresh'),
+      onFailure: error => { console.error(error); buttonView.render('stopped'); },
+    });
+    this.buttonView.render('saving');
   }
 
   trash() {

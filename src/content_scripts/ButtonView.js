@@ -29,6 +29,12 @@ const renderFresh = (container, startButton) => {
   container.append(startButton);
 };
 
+const renderSaving = (container) => {
+  const label = document.createElement('span');
+  label.textContent = 'Uploading…';
+  container.append(label);
+};
+
 export default class ButtonView {
   constructor(container) {
     this.container = container;
@@ -53,6 +59,9 @@ export default class ButtonView {
         break;
       case 'stopped':
         renderStopped(this.container, this.startButton, this.saveButton, this.trashButton);
+        break;
+      case 'saving':
+        renderSaving(this.container);
         break;
       default:
         renderFresh(this.container, this.startButton);
