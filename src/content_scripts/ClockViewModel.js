@@ -5,11 +5,14 @@ const subscribeToClock = (clock, clockModel) => {
 };
 
 export default class ClockViewModel {
-  constructor(clock) {
+  constructor(clock, clockView) {
     this.clock = clock;
+    this.clockView = clockView;
     this.onStartHandlers = [];
     this.onStopHandlers = [];
-    this.onTickHandlers = [];
+    this.onTickHandlers = [
+      rawTime => clockView.render(rawTime),
+    ];
     this.onChangeStateHandlers = [];
     subscribeToClock(clock, this);
   }
@@ -28,6 +31,7 @@ export default class ClockViewModel {
     this.clock.destroy();
     this.clock = clock;
     subscribeToClock(clock, this);
+    this.clockView.reset();
     this.changeState();
   }
 

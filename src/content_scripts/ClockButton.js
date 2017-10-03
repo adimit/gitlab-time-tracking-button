@@ -1,5 +1,5 @@
 import Clock from '../Clock';
-import DateFormat from '../DateFormat';
+import ClockView from './ClockView';
 import ClockViewModel from './ClockViewModel';
 import Server from './../Server';
 import UrlParser from '../UrlParser';
@@ -45,13 +45,10 @@ if (document.getElementById(clockContainerId) === null) {
   dueDateContainer.before(ourContainer);
 
   postOffice.getClock().then((savedClock) => {
-    const clockView = new ClockViewModel(new Clock(savedClock));
+    const clockView = new ClockView(timeDisplay);
+    const clockViewModel = new ClockViewModel(new Clock(savedClock), clockView);
 
-    clockView.subscribe((rawTime) => {
-      timeDisplay.textContent = DateFormat.precise(rawTime);
-    });
-
-    clockView.onStart(() => {
+    clockViewModel.onStart(() => {
       startStopButton.textContent = 'stop';
       startStopButton.classList.remove('stopped');
       startStopButton.classList.add('started');
@@ -59,14 +56,13 @@ if (document.getElementById(clockContainerId) === null) {
       trashButton.classList.remove('invisible');
     });
 
-    clockView.onStop(() => {
+    clockViewModel.onStop(() => {
       startStopButton.textContent = 'start';
       startStopButton.classList.remove('started');
       startStopButton.classList.add('stopped');
     });
 
-    clockView.onChangeState(async (rawTime) => {
-      timeDisplay.textContent = DateFormat.precise(rawTime);
+    clockViewModel.onChangeState(async (rawTime) => {
       if (rawTime > 0) {
         saveButton.classList.remove('invisible');
         trashButton.classList.remove('invisible');
@@ -80,21 +76,21 @@ if (document.getElementById(clockContainerId) === null) {
       const server = new Server(instanceManager);
 
       startStopButton.onclick = () => {
-        clockView.toggle();
-        postOffice.updateClock(clockView.getClock());
+        clockViewModel.toggle();
+        postOffice.updateClock(clockViewModel.getClock());
       };
 
       trashButton.onclick = () => {
-        clockView.resetClock(new Clock());
+        clockViewModel.resetClock(new Clock());
         postOffice.trashClock();
       };
 
       saveButton.onclick = async () => {
-        const time = clockView.getTime();
-        clockView.stop();
+        const time = clockViewModel.getTime();
+        clockViewModel.stop();
         const response = await server.record(time, issueData);
         if (response.status === 'ok') {
-          clockView.resetClock(new Clock());
+          clockViewModel.resetClock(new Clock());
           postOffice.trashClock();
         } else {
           console.error(response); // eslint-disable-line no-console
@@ -102,6 +98,6 @@ if (document.getElementById(clockContainerId) === null) {
       };
     });
 
-    clockView.changeState();
+    clockViewModel.changeState();
   });
 }
