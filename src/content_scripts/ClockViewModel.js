@@ -15,6 +15,7 @@ export default class ClockViewModel {
     ];
     this.onChangeStateHandlers = [];
     subscribeToClock(clock, this);
+    clockView.render(clock.getTime());
   }
 
   toggle() {

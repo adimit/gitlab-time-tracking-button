@@ -12,12 +12,8 @@ export default class ClockView {
     this.display = constructTimeDispaly(container);
   }
 
-  reset() {
-    this.display.textContent = '';
-  }
-
   render(rawTime) {
-    const timeString = DateFormat.precise(rawTime);
+    const timeString = rawTime === 0 ? '' : DateFormat.precise(rawTime);
     this.display.textContent = timeString;
   }
 }
