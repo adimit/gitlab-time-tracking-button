@@ -3,8 +3,8 @@ import isFirefox from './UserAgent';
 const makeKey = ({ instance, group, project, issue }) => `${instance}&${group}&${project}&${issue}`;
 
 export default class TimeKeeper {
-  constructor(chrome) {
-    this.chrome = chrome;
+  constructor(browser) {
+    this.browser = browser;
     this.clocks = {};
     this.messageProc = isFirefox() ? this.processMessageFF : this.processMessageChrome;
   }
@@ -40,16 +40,16 @@ export default class TimeKeeper {
 
   async updateClock(key, clockData) {
     this.clocks[key] = clockData;
-    await this.chrome.set({ clocks: this.clocks });
+    await this.browser.storage.local.set({ clocks: this.clocks });
   }
 
   async trashClock(key) {
     delete this.clocks[key];
-    await this.chrome.set({ clocks: this.clocks });
+    await this.browser.storage.local.set({ clocks: this.clocks });
   }
 
   async giveClock(key) {
-    const { clocks } = await this.chrome.getOrDefault('clocks', { clocks: {} });
+    const { clocks } = await this.browser.storage.local.getOrDefault('clocks', { clocks: {} });
     if (clocks !== undefined && clocks[key]) {
       return clocks[key];
     }

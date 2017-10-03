@@ -14,8 +14,8 @@ const getHostName = (pseudoUrl) => {
 };
 
 export default class AddonOptions {
-  constructor(Chrome) {
-    this.Chrome = Chrome;
+  constructor(browser) {
+    this.browser = browser;
     this.newPermissionBox = document.querySelector('#new-permission');
     this.newTokenBox = document.querySelector('#new-api-token');
     this.listContainer = document.querySelector('#enabled-instances-container');
@@ -27,13 +27,13 @@ export default class AddonOptions {
 
     allGitlabs[newHost] = newToken;
 
-    await this.Chrome.set({ gitlabs: allGitlabs });
+    await this.browser.storage.local.set({ gitlabs: allGitlabs });
   }
 
   async removeGitlab(host) {
     const allGitlabs = await this.getAllGitlabs();
     delete allGitlabs[host];
-    await this.Chrome.set({ gitlabs: allGitlabs });
+    await this.browser.storage.local.set({ gitlabs: allGitlabs });
   }
 
   async displayGitlabs() {
@@ -72,7 +72,7 @@ export default class AddonOptions {
   addRemoveEventListener(element, url) {
     const options = this;
     element.addEventListener('click', async () => {
-      await options.Chrome.removePermission(url);
+      await options.browser.permissions.removeOrigin(url);
       await options.removeGitlab(url);
       await options.displayGitlabs();
     });
@@ -80,7 +80,7 @@ export default class AddonOptions {
 
   async getAllGitlabs() {
     try {
-      const { gitlabs } = await this.Chrome.get('gitlabs');
+      const { gitlabs } = await this.browser.storage.local.get('gitlabs');
       if (undefined === gitlabs) {
         return {};
       }
@@ -124,7 +124,7 @@ export default class AddonOptions {
       const url = `https://${newPermission}/`;
 
       try {
-        await options.Chrome.addPermission(url);
+        await options.browser.permissions.requestOrigin(url);
         await options.addGitlab(url, newToken);
         await options.displayGitlabs();
       } catch (e) {

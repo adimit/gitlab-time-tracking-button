@@ -7,7 +7,7 @@ export default class Browser {
   constructor(browser) {
     this.tabs = new Tabs(browser);
     this.permissions = new Permissions(browser);
-    this.storage = new Storage(browser);
+    this.storage = { local: new Storage(browser) };
     this.runtime = new Runtime(browser);
   }
 }

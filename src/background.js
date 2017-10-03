@@ -1,13 +1,13 @@
 import TabListener from './TabListener';
 import InstanceManager from './InstanceManager';
-import ChromeAdapter from './ChromeAdapter';
 import ChromeTabs from './ChromeTabs';
 import TimeKeeper from './TimeKeeper';
 import isFirefox from './UserAgent';
+import Browser from './Browser';
 
-const chromeAdapter = new ChromeAdapter(chrome);
 const chromeTabs = new ChromeTabs(chrome);
-const timeKeeper = new TimeKeeper(chromeAdapter);
+const browser = new Browser(chrome);
+const timeKeeper = new TimeKeeper(browser);
 
 if (isFirefox()) {
   chrome.runtime.onMessage.addListener(
@@ -21,7 +21,7 @@ if (isFirefox()) {
     });
 }
 
-InstanceManager.initialize(chromeAdapter).then((instanceManager) => {
+InstanceManager.initialize(browser).then((instanceManager) => {
   const tabListener = new TabListener(chromeTabs, instanceManager);
 
   chrome.storage.onChanged.addListener(changes => instanceManager.updateStorage(changes));

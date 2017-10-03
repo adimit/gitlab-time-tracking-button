@@ -31,6 +31,14 @@ export default class Permissions {
     }
   }
 
+  async requestOrigin(url) {
+    return this.request({ origins: [url] });
+  }
+
+  async removeOrigin(url) {
+    return this.remove({ origins: [url] });
+  }
+
   remove(object) {
     return new Promise((resolve, reject) => {
       this.chrome.permissions.remove(
