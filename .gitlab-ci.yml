@@ -22,7 +22,7 @@ test:unit:
   script:
     - npm run test
   tags:
-    chromium
+    - chromium
 
 bundle:
   stage: bundle
