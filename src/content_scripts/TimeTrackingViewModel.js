@@ -18,7 +18,6 @@ export default class TimeTrackingViewModel {
     await this.stop();
     const time = this.clockViewModel.getTime();
     const response = await this.server.record(time, this.issueData);
-    console.log(response);
     if (response.status === 'ok') {
       await this.trash();
     } else {
