@@ -1,24 +1,26 @@
-$green: rgb(26, 170, 85);
-$red: rgb(252, 148, 3);
-$blue: #88D;
+$green: #5CB85C;
+$red: #C03;
+$blue: #428BCA;
+$light: #A8D695;
 
 @mixin time-tracking-button {
   display: inline-block;
   touch-action: manipulation;
   cursor: pointer;
   white-space: nowrap;
-  padding: 6px 16px;
   user-select: none;
   background-image: none;
+  border-radius: 50%;
   height: 30px;
-  padding: 5px 10px;
-  font-size: 14px;
-  line-height: 1.5;
-  border: 1px solid;
-  padding: 6 10 10 6;
-  border-radius: 3px;
+  width: 30px;
 
-  transition: background-color 100ms linear, color 100ms linear, box-shadow 100ms linear, border-color 100ms linear;
+  svg {
+    position: relative;
+    left: 7px;
+    top: 7px;
+  }
+
+  transition: background-color 100ms linear, color 100ms linear, box-shadow 100ms linear;
 
   &:focus {
     outline:thin dotted;
@@ -28,46 +30,66 @@ $blue: #88D;
 }
 
 @mixin button-color($color) {
-  border-color: $color;
   color: $color;
+  border-color: $color;
 
   &:hover {
     background: $color;
     color: white;
-    border: 1px solid $color;
-    border-radius: 3px;
   }
 }
 
-.green {
-  @include button-color($green)
+.time-tracking {
+  &-start-button {
+    @include time-tracking-button;
+    @include button-color($light);
+  }
+
+  &-stop-button {
+    @include time-tracking-button;
+    @include button-color($blue);
+  }
+
+  &-save-button {
+    @include time-tracking-button;
+    @include button-color($green);
+  }
+
+  &-trash-button{
+    @include time-tracking-button;
+    @include button-color($red);
+  }
 }
 
-.stopped {
-  @include button-color($red)
+#time-tracking-button-container {
+  display: inline-block;
 }
 
-.red {
-  @include button-color($red)
+#time-tracking-time-display-container {
+  display: block;
+  min-width: 40px;
+  label {
+    margin-right: 10px;
+  }
 }
 
-.started {
-  @include button-color($blue)
-}
+.right-sidebar-collapsed {
+  #time-tracking-time-display-container {
+    .time-display {
+      display: block;
+      text-align: center;
+    }
+    label {
+      display: none;
+    }
+  }
 
-.start-stop-button {
-  @include time-tracking-button;
-
-}
-
-.trash-time-button {
-  @include time-tracking-button;
-}
-
-.save-time-button {
-  @include time-tracking-button;
-}
-
-.invisible {
-  visibility: hidden;
+  #time-tracking-button-container {
+    width: 100%;
+    div {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
 }

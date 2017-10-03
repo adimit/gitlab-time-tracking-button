@@ -1,7 +1,9 @@
-const createButton = (text) => {
+import feather from 'feather-icons';
+
+const createButton = (text, icon) => {
   const button = document.createElement('div');
   button.classList.add(`time-tracking-${text}-button`);
-  button.textContent = text;
+  button.innerHTML = feather.toSvg(icon, { width: 16, height: 16 });
   return button;
 };
 
@@ -30,10 +32,10 @@ const renderFresh = (container, startButton) => {
 export default class ButtonView {
   constructor(container) {
     this.container = container;
-    this.startButton = createButton('start');
-    this.stopButton = createButton('stop');
-    this.saveButton = createButton('save');
-    this.trashButton = createButton('trash');
+    this.startButton = createButton('start', 'play');
+    this.stopButton = createButton('stop', 'square');
+    this.saveButton = createButton('save', 'upload');
+    this.trashButton = createButton('trash', 'trash');
   }
 
   registerListeners(start, stop, save, trash) {

@@ -1,6 +1,9 @@
 import DateFormat from '../DateFormat';
 
 const constructTimeDispaly = (container) => {
+  const label = document.createElement('label');
+  label.textContent = 'Track time';
+  container.append(label);
   const timeDisplay = document.createElement('span');
   timeDisplay.classList.add('time-display');
   container.append(timeDisplay);
