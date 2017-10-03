@@ -63,6 +63,9 @@ $light: #A8D695;
 
 #time-tracking-button-container {
   display: inline-block;
+  span {
+    height: 30px;
+  }
 }
 
 #time-tracking-time-display-container {
