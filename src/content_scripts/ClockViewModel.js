@@ -18,6 +18,16 @@ export default class ClockViewModel {
     clockView.render(clock.getTime());
   }
 
+  getState() {
+    if (this.clock.isRunning()) {
+      return 'running';
+    }
+    if (this.clock.getTime() > 0) {
+      return 'stopped';
+    }
+    return 'fresh';
+  }
+
   toggle() {
     this.clock.toggle();
     this.changeState();
