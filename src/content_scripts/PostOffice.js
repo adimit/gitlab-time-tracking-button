@@ -1,5 +1,5 @@
 import isFirefox from '../UserAgent';
-import fireEvent from '../Events';
+// import fireEvent from '../Events';
 
 const firefoxSendMessage = (chrome, data) => chrome.runtime.sendMessage(data);
 

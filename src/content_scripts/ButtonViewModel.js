@@ -1,4 +1,4 @@
-import fireEvent from '../Events.js';
+import fireEvent from '../Events';
 
 export default class ButtonViewModel {
   constructor(buttonView, initialState) {
@@ -46,7 +46,7 @@ export default class ButtonViewModel {
     const buttonView = this.buttonView;
     fireEvent(this.handlers.save, {
       onSuccess: () => buttonView.render('fresh'),
-      onFailure: error => { console.error(error); buttonView.render('stopped'); },
+      onFailure: (error) => { console.error(error); buttonView.render('stopped'); }, // eslint-disable-line no-console
     });
     this.buttonView.render('saving');
   }
