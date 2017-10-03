@@ -16,7 +16,7 @@ if (document.getElementById(clockContainerId) === null) {
   const browser = new Browser(chrome);
   const urlParser = new UrlParser(window.location.href);
   const issueData = urlParser.getAllData();
-  const postOffice = new PostOffice(chrome, issueData);
+  const postOffice = new PostOffice(browser, issueData);
 
   const ourContainer = document.createElement('div');
   ourContainer.setAttribute('id', clockContainerId);
