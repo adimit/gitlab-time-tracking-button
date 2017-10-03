@@ -18,6 +18,7 @@ test:lint:
     - npm run lint
 
 test:unit:
+  image: adimit/docker-node-chromium
   stage: test
   script:
     - npm run test
