@@ -91,7 +91,7 @@ export default class AddonOptions {
   }
 
   showError(message, element) {
-    this.errorContainer.textContent = message;
+    this.errorContainer.innerHTML = message;
     this.errorContainer.classList.remove('invisible');
     if (element) {
       element.classList.add('error');
@@ -128,7 +128,11 @@ export default class AddonOptions {
         await options.addGitlab(url, newToken);
         await options.displayGitlabs();
       } catch (e) {
-        options.showError(`Error adding permission: ${e.message}`);
+        options.showError(`Error adding permission: ${e.message}. If you are
+        running Firefox, and you weren't asked for the permission, please try
+        using <a target="_blank" href="/options.html">this link</a>. See <a
+        href="https://bugzilla.mozilla.org/show_bug.cgi?id=1382953">FF bug
+        1382953</a> for information.`);
       }
     };
 
