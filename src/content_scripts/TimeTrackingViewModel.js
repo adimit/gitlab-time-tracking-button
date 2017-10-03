@@ -15,28 +15,29 @@ export default class TimeTrackingViewModel {
   }
 
   async save() {
-    this.stop();
+    await this.stop();
     const time = this.clockViewModel.getTime();
     const response = await this.server.record(time, this.issueData);
+    console.log(response);
     if (response.status === 'ok') {
-      this.trash();
+      await this.trash();
     } else {
       console.error(response); // eslint-disable-line no-console
     }
   }
 
-  start() {
+  async start() {
     this.clockViewModel.start();
-    this.postOffice.updateClock(this.clockViewModel.getClock());
+    await this.postOffice.updateClock(this.clockViewModel.getClock());
   }
 
-  trash() {
+  async trash() {
     this.clockViewModel.resetClock(new Clock());
-    this.postOffice.trashClock();
+    await this.postOffice.trashClock();
   }
 
-  stop() {
+  async stop() {
     this.clockViewModel.stop();
-    this.postOffice.updateClock(this.clockViewModel.getClock());
+    await this.postOffice.updateClock(this.clockViewModel.getClock());
   }
 }

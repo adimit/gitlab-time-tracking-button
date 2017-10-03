@@ -26,7 +26,7 @@ export default class PostOffice {
     this.handlers = { start: [], stop: [], trash: [] };
   }
 
-  updateClock(clockData) {
+  async updateClock(clockData) {
     return this.sendMessage(
       this.chrome,
       {
@@ -37,7 +37,7 @@ export default class PostOffice {
     );
   }
 
-  trashClock() {
+  async trashClock() {
     return this.sendMessage(
       this.chrome,
       {
@@ -47,7 +47,7 @@ export default class PostOffice {
     );
   }
 
-  getClock() {
+  async getClock() {
     return this.sendMessage(
       this.chrome,
       {
