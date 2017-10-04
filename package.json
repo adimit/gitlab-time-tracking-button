@@ -7,8 +7,8 @@
     "url": ""
   },
   "scripts": {
-    "build:firefox": "webpack --env.TARGET=firefox --env.VERSION=$npm_package_version && rm -f addon/manifest.js{,.map}",
-    "build:chromium": "webpack --env.TARGET=chromium --env.VERSION=$npm_package_version && rm -f addon/manifest.js{,.map}",
+    "build:firefox": "TARGET=firefox VERSION=\"$npm_package_version\" webpack && rm -f addon/manifest.js{,.map}",
+    "build:chromium": "TARGET=chromium VERSION=\"$npm_package_version\" webpack && rm -f addon/manifest.js{,.map}",
     "bundle": "web-ext -s ./addon -a . build --overwrite-dest",
     "clean": "rm -rf addon/*",
     "lint": "eslint src --ext .js,.json",
