@@ -7,7 +7,8 @@
     "url": ""
   },
   "scripts": {
-    "build": "webpack",
+    "build:firefox": "webpack --env.TARGET=firefox",
+    "build:chromium": "webpack --env.TARGET=chromium",
     "bundle": "web-ext -s ./addon -a . build --overwrite-dest",
     "clean": "rm -rf addon/*",
     "lint": "eslint src --ext .js,.json",
