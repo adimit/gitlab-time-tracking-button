@@ -16,9 +16,11 @@ const glob = require("glob");
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const StringReplacePlugin = require('string-replace-webpack-plugin');
 
 const HtmlTextPlugin = new ExtractTextPlugin("[name].html");
 const CssTextPlugin = new ExtractTextPlugin("[name].css");
+const ExtractManifest = new ExtractTextPlugin('manifest.json');
 
 const addon = path.resolve(__dirname, "addon");
 const source_path = path.resolve(__dirname, "./src");
@@ -26,6 +28,8 @@ const source_path = path.resolve(__dirname, "./src");
 
 module.exports = env => {
   const variant = env.TARGET || "firefox";
+  const version = env.VERSION;
+  console.log('VERSION', version);
   return {
     entry: {
       /** background script */
@@ -35,7 +39,9 @@ module.exports = env => {
           The HTML is extracted with the extract text plugin */
       'options': glob.sync(path.resolve(source_path, "options.*")),
 
-      'content_scripts/ClockButton': glob.sync(path.resolve(source_path, "content_scripts/ClockButton.*"))
+      'content_scripts/ClockButton': glob.sync(path.resolve(source_path, "content_scripts/ClockButton.*")),
+
+      'manifest': path.resolve(`manifest-${variant}.json`)
     },
     devtool: 'source-map',
     output: {
@@ -44,18 +50,14 @@ module.exports = env => {
     },
     plugins: [
       new CopyWebpackPlugin([
-        /** Copies the icons and the manifest to the target location */
-        {
-          from: path.resolve(__dirname, `manifest-${variant}.json`),
-          to:   path.resolve(addon, "manifest.json")
-        },
         {
           from: path.resolve(__dirname, "icons"),
           to:   path.resolve(addon, "icons")
         }
       ]),
       HtmlTextPlugin,
-      CssTextPlugin
+      CssTextPlugin,
+      ExtractManifest
     ],
     resolve: {
       /** This hack is here because sinon uses 'require' in buggy ways */
@@ -79,6 +81,19 @@ module.exports = env => {
               plugins: ['transform-runtime']
             }
           }
+        },
+        {
+          test: /manifest.*\.json$/,
+          loader: ExtractManifest.extract({
+            use: StringReplacePlugin.replace({
+              replacements: [
+                {
+                  pattern: /{{version}}/,
+                  replacement: () => version
+                }
+              ]
+            }, 'raw-loader')
+          })
         },
         {
           test: /assets.*\.css$/,
