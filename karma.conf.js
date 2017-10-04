@@ -19,6 +19,7 @@ const webpackConfig = require('./webpack.config.js');
  * Use inline source maps for karma
  */
 webpackConfig.devtool = 'inline-source-map';
+webpackConfig.entry = undefined; // from Karma
 
 /**
  * Add a post processor for istanbul's coverage instrumenter.
