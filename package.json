@@ -1,6 +1,6 @@
 {
   "name": "gitlab-time-tracking-button",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Adds a time tracking button to Gitlab's issue interface",
   "repository": {
     "type": "git",
