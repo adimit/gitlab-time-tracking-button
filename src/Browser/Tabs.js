@@ -1,6 +1,9 @@
 export default class Tabs {
   constructor(browser) {
     this.browser = browser;
+    this.onUpdated = {
+      addListener: f => browser.tabs.onUpdated.addListener(f),
+    };
   }
 
   executeScript(tabId, js) {

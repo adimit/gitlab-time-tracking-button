@@ -13,6 +13,6 @@ browser.runtime.onMessage.addListener(
 InstanceManager.initialize(browser).then((instanceManager) => {
   const tabListener = new TabListener(browser, instanceManager);
 
-  chrome.storage.onChanged.addListener(changes => instanceManager.updateStorage(changes));
-  chrome.tabs.onUpdated.addListener((tabid, changeInfo, data) => tabListener.updateTabs(data));
+  browser.storage.onChanged.addListener(changes => instanceManager.updateStorage(changes));
+  browser.tabs.onUpdated.addListener((tabid, changeInfo, data) => tabListener.updateTabs(data));
 });
