@@ -7,7 +7,7 @@ export default class FirefoxTabs {
   }
 
   sendMessage(tabId, message, options) {
-    return this.browser.sendMessage(tabId, message, options);
+    return this.browser.tabs.sendMessage(tabId, message, options);
   }
 
   executeScript(tabId, js) {
