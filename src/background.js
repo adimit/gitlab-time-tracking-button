@@ -19,8 +19,8 @@ browser.storage.local.getOrDefault('clocks', { clocks: {} }).then(({ clocks }) =
 
 InstanceManager.initialize(browser).then((instanceManager) => {
   const tabListener = new TabListener(browser, instanceManager);
-  tabListener.onInstanceTabLoaded(tabRegistry.registerTab);
-  tabListener.onNonInstanceTabLoaded(tabRegistry.deregisterTab);
+  tabListener.onInstanceTabLoaded(tab => tabRegistry.registerTab(tab));
+  tabListener.onNonInstanceTabLoaded(tab => tabRegistry.deregisterTab(tab));
 
   browser.storage.onChanged.addListener(changes => instanceManager.updateStorage(changes));
   browser.tabs.onUpdated.addListener((tabid, changeInfo, data) => tabListener.updateTabs(data));
