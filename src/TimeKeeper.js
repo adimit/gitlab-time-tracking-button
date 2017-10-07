@@ -1,7 +1,7 @@
 export default class TimeKeeper {
-  constructor(browser) {
+  constructor(browser, clocks) {
     this.browser = browser;
-    this.clocks = {};
+    this.clocks = clocks;
   }
 
   async updateClock(key, clockData) {

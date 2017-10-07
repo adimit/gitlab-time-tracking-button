@@ -7,12 +7,15 @@ import BackgroundMessageListener from './BackgroundMessageListener';
 
 const browser = new Browser(chrome);
 const tabRegistry = new TabRegistry(browser);
-const timeKeeper = new TimeKeeper(browser);
-const listener = new BackgroundMessageListener(timeKeeper, tabRegistry);
 
-browser.runtime.onMessage.addListener(
-  (message, sender) => listener.processMessage(message, sender),
-);
+browser.storage.local.getOrDefault('clocks', { clocks: {} }).then(({ clocks }) => {
+  const timeKeeper = new TimeKeeper(browser, clocks);
+  const listener = new BackgroundMessageListener(timeKeeper, tabRegistry);
+
+  browser.runtime.onMessage.addListener(
+    (message, sender) => listener.processMessage(message, sender),
+  );
+});
 
 InstanceManager.initialize(browser).then((instanceManager) => {
   const tabListener = new TabListener(browser, instanceManager);
