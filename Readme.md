@@ -1,6 +1,7 @@
 # Gitlab Time Tracking Button
 
-[Homepage](https://gitlab.com/adimit/gitlab-time-tracking-button/)
+- [Homepage](https://gitlab.com/adimit/gitlab-time-tracking-button/)
+- [Chrome Webstore](https://chrome.google.com/webstore/detail/gitlab-time-tracking-butt/bodhfghfkmappoagkplnoklojfcjfmnk)
 
 Addon for Chrome and Firefox that inserts a time tracking button on the issue page.
 
