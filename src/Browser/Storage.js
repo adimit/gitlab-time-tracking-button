@@ -36,7 +36,11 @@ export default class Storage {
    */
   async getOrDefault(items, defaultResult) {
     try {
-      return await this.get(items);
+      const result = await this.get(items);
+      if (Object.keys(result).length === 0) {
+        return defaultResult;
+      }
+      return result;
     } catch (e) {
       return defaultResult;
     }
