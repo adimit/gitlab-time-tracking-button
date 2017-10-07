@@ -8,7 +8,7 @@ export default class Runtime {
     };
   }
 
-  sendMessage(data) {
-    return this.browser.runtime.sendMessage(data);
+  sendMessage(extensionId, data, options) {
+    return this.browser.runtime.sendMessage(extensionId, data, options);
   }
 }

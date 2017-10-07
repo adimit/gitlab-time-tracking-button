@@ -9,6 +9,7 @@ export default class PostOffice {
 
   async updateClock(clockData) {
     return this.browser.runtime.sendMessage(
+      null,
       {
         action: 'update',
         clockData,
@@ -19,6 +20,7 @@ export default class PostOffice {
 
   async trashClock() {
     return this.browser.runtime.sendMessage(
+      null,
       {
         action: 'trash',
         issueData: this.issueData,
@@ -28,6 +30,7 @@ export default class PostOffice {
 
   async getClock() {
     return this.browser.runtime.sendMessage(
+      null,
       {
         action: 'get',
         issueData: this.issueData,
