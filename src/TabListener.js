@@ -1,8 +1,8 @@
 import UrlParser from './UrlParser';
 
 export default class TabListener {
-  constructor(chromeTabs, instanceManager) {
-    this.chromeTabs = chromeTabs;
+  constructor(browser, instanceManager) {
+    this.browser = browser;
     this.instanceManager = instanceManager;
   }
 
@@ -23,8 +23,8 @@ export default class TabListener {
 
   async insertAssetsInto(tabId) {
     return [
-      await this.chromeTabs.insertJsFile(tabId, 'content_scripts/ClockButton.js'),
-      await this.chromeTabs.insertCssFile(tabId, 'content_scripts/ClockButton.css'),
+      await this.browser.tabs.insertJsFile(tabId, 'content_scripts/ClockButton.js'),
+      await this.browser.tabs.insertCssFile(tabId, 'content_scripts/ClockButton.css'),
     ];
   }
 }

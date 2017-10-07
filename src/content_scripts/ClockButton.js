@@ -1,9 +1,9 @@
+import Browser from '../Browser';
 import Clock from '../Clock';
 import ClockView from './ClockView';
 import ClockViewModel from './ClockViewModel';
 import Server from './../Server';
 import UrlParser from '../UrlParser';
-import ChromeAdapter from '../ChromeAdapter';
 import InstanceManager from '../InstanceManager';
 import PostOffice from './PostOffice';
 import ButtonView from './ButtonView';
@@ -13,9 +13,10 @@ import TimeTrackingViewModel from './TimeTrackingViewModel';
 const clockContainerId = 'time-tracking-clock-container';
 
 if (document.getElementById(clockContainerId) === null) {
+  const browser = new Browser(chrome);
   const urlParser = new UrlParser(window.location.href);
   const issueData = urlParser.getAllData();
-  const postOffice = new PostOffice(chrome, issueData);
+  const postOffice = new PostOffice(browser, issueData);
 
   const ourContainer = document.createElement('div');
   ourContainer.setAttribute('id', clockContainerId);
@@ -37,7 +38,7 @@ if (document.getElementById(clockContainerId) === null) {
     const clockView = new ClockView(timeDisplayContainer);
     const clockViewModel = new ClockViewModel(new Clock(savedClock), clockView);
 
-    InstanceManager.initialize(new ChromeAdapter(chrome)).then((instanceManager) => {
+    InstanceManager.initialize(browser).then((instanceManager) => {
       const server = new Server(instanceManager);
       const buttonView = new ButtonView(buttonContainer);
       const buttonViewModel = new ButtonViewModel(buttonView, clockViewModel.getState());

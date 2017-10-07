@@ -1,6 +1,6 @@
 {
   "name": "gitlab-time-tracking-button",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Adds a time tracking button to Gitlab's issue interface",
   "repository": {
     "type": "git",
@@ -15,7 +15,7 @@
     "lint:fix": "npm run lint -- --fix",
     "start": "concurrently --kill-others \"npm run watch:build\" \"npm run webext:run\"",
     "test": "karma start --browsers ChromiumHeadless --single-run=true",
-    "watch:build": "webpack  --progress --colors --watch",
+    "watch:build": "TARGET=firefox VERSION=\"$npm_package_version\" webpack  --progress --colors --watch",
     "watch:test": "karma  start --browsers ChromiumHeadless --single-run=false",
     "watch:debug": "karma start --browsers Chromium --single-run=false",
     "webext:lint": "web-ext -s ./addon lint",

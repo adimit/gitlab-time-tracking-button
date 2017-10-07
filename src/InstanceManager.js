@@ -47,8 +47,8 @@ export default class InstanceManager {
     return this.instances[instance] || null;
   }
 
-  static async initialize(chrome) {
-    const { gitlabs } = await chrome.getOrDefault('gitlabs', { gitlabs: {} });
+  static async initialize(browser) {
+    const { gitlabs } = await browser.storage.local.getOrDefault('gitlabs', { gitlabs: {} });
     return new this(gitlabs);
   }
 }

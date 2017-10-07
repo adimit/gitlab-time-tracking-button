@@ -1,29 +1,18 @@
 import TabListener from './TabListener';
 import InstanceManager from './InstanceManager';
-import ChromeAdapter from './ChromeAdapter';
-import ChromeTabs from './ChromeTabs';
 import TimeKeeper from './TimeKeeper';
-import isFirefox from './UserAgent';
+import Browser from './Browser';
 
-const chromeAdapter = new ChromeAdapter(chrome);
-const chromeTabs = new ChromeTabs(chrome);
-const timeKeeper = new TimeKeeper(chromeAdapter);
+const browser = new Browser(chrome);
+const timeKeeper = new TimeKeeper(browser);
 
-if (isFirefox()) {
-  chrome.runtime.onMessage.addListener(
-    async (message, sender, sendResponse) =>
-      timeKeeper.processMessage(message, sender, sendResponse));
-} else {
-  chrome.runtime.onMessage.addListener(
-    (message, sender, sendResponse) => {
-      timeKeeper.processMessage(message, sender, sendResponse);
-      return true;
-    });
-}
+browser.runtime.onMessage.addListener(
+  message => timeKeeper.processMessage(message),
+);
 
-InstanceManager.initialize(chromeAdapter).then((instanceManager) => {
-  const tabListener = new TabListener(chromeTabs, instanceManager);
+InstanceManager.initialize(browser).then((instanceManager) => {
+  const tabListener = new TabListener(browser, instanceManager);
 
-  chrome.storage.onChanged.addListener(changes => instanceManager.updateStorage(changes));
-  chrome.tabs.onUpdated.addListener((tabid, changeInfo, data) => tabListener.updateTabs(data));
+  browser.storage.onChanged.addListener(changes => instanceManager.updateStorage(changes));
+  browser.tabs.onUpdated.addListener((tabid, changeInfo, data) => tabListener.updateTabs(data));
 });

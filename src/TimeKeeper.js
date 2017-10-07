@@ -1,33 +1,13 @@
-import isFirefox from './UserAgent';
 
 const makeKey = ({ instance, group, project, issue }) => `${instance}&${group}&${project}&${issue}`;
 
 export default class TimeKeeper {
-  constructor(chrome) {
-    this.chrome = chrome;
+  constructor(browser) {
+    this.browser = browser;
     this.clocks = {};
-    this.messageProc = isFirefox() ? this.processMessageFF : this.processMessageChrome;
   }
 
-  async processMessage(message, sender, sendResponse) {
-    return this.messageProc(message, sender, sendResponse);
-  }
-
-  async processMessageChrome(message, sender, sendResponse) {
-    const { action, issueData, clockData } = message;
-    const key = makeKey(issueData);
-    let answer = null;
-    switch (action) {
-      case 'update': answer = await this.updateClock(key, clockData); break;
-      case 'trash': answer = await this.trashClock(key); break;
-      case 'get': answer = await this.giveClock(key); break;
-      default: throw Error(`Unknown action ${action}`);
-    }
-
-    sendResponse(answer);
-  }
-
-  async processMessageFF(message) {
+  processMessage(message) {
     const { action, issueData, clockData } = message;
     const key = makeKey(issueData);
     switch (action) {
@@ -40,16 +20,16 @@ export default class TimeKeeper {
 
   async updateClock(key, clockData) {
     this.clocks[key] = clockData;
-    await this.chrome.set({ clocks: this.clocks });
+    await this.browser.storage.local.set({ clocks: this.clocks });
   }
 
   async trashClock(key) {
     delete this.clocks[key];
-    await this.chrome.set({ clocks: this.clocks });
+    await this.browser.storage.local.set({ clocks: this.clocks });
   }
 
   async giveClock(key) {
-    const { clocks } = await this.chrome.getOrDefault('clocks', { clocks: {} });
+    const { clocks } = await this.browser.storage.local.getOrDefault('clocks', { clocks: {} });
     if (clocks !== undefined && clocks[key]) {
       return clocks[key];
     }
