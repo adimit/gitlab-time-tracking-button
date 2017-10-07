@@ -7,7 +7,7 @@ const browser = new Browser(chrome);
 const timeKeeper = new TimeKeeper(browser);
 
 browser.runtime.onMessage.addListener(
-  message => timeKeeper.processMessage(message),
+  (message, sender) => timeKeeper.processMessage(message, sender),
 );
 
 InstanceManager.initialize(browser).then((instanceManager) => {

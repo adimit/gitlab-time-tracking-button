@@ -7,7 +7,7 @@ export default class TimeKeeper {
     this.clocks = {};
   }
 
-  processMessage(message) {
+  processMessage(message, sender) {
     const { action, issueData, clockData } = message;
     const key = makeKey(issueData);
     switch (action) {
