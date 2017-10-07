@@ -23,7 +23,7 @@ describe('TabRegistry', function () {
     // fires message to registered tab
     // doesn't fire message to sending tab
     sinon.assert.callCount(spy, 1);
-    sinon.assert.calledWith(spy, 1, 'update', 'clockData');
+    sinon.assert.calledWith(spy, 1, { message: 'update', clockData: 'clockData' });
   });
 
   it('Does not send messages to registered tabs with the wrong issue info', function () {

@@ -1,6 +1,6 @@
 const makeKey = ({ instance, group, project, issue }) => `${instance}&${group}&${project}&${issue}`;
-const sendMessage = (browser, tabIds, message, content) => {
-  tabIds.forEach(tab => browser.tabs.sendMessage(tab, message, content));
+const sendMessage = (browser, tabIds, message, options) => {
+  tabIds.forEach(tab => browser.tabs.sendMessage(tab, message, options));
 };
 
 export default class TabRegistry {
@@ -11,11 +11,11 @@ export default class TabRegistry {
   }
 
   update(tabId, issueData, clockData) {
-    sendMessage(this.browser, this.getTabsForIssue(issueData, tabId), 'update', clockData);
+    sendMessage(this.browser, this.getTabsForIssue(issueData, tabId), { clockData, message: 'update' });
   }
 
   trash(tabId, issueData) {
-    sendMessage(this.browser, this.getTabsForIssue(issueData, tabId), 'trash');
+    sendMessage(this.browser, this.getTabsForIssue(issueData, tabId), { message: 'trash' });
   }
 
   getTabsForIssue(issueData, originalTab) {
