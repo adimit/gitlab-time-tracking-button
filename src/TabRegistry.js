@@ -10,4 +10,12 @@ export default class TabRegistry {
   trash(tabId, issueData) {
     console.log('trash', tabId, issueData);
   }
+
+  registerTab(tabId) {
+    console.log('registering', tabId);
+  }
+
+  deregisterTab(tabId) {
+    console.log('deregistering', tabId);
+  }
 }
