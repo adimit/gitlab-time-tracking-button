@@ -1,7 +1,7 @@
 /* eslint-disable func-names, prefer-arrow-callback */
 
 import sinon from 'sinon';
-import { expect, describe, it } from 'mocha';
+import { describe, it } from 'mocha';
 
 import TabRegistry from './TabRegistry';
 
