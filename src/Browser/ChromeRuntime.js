@@ -5,7 +5,13 @@ export default class Runtime {
       addListener: (f) => {
         browser.runtime.onMessage.addListener(
           (message, sender, sendResponse) => {
-            f(message, sender, sendResponse);
+            (async () => {
+              const answer = await f(message, sender);
+              sendResponse(answer);
+            })();
+
+            // return true has to come immediately for Chrome, which is why
+            // execute the async function right away
             return true;
           },
         );
