@@ -7,7 +7,6 @@ export default class BackgroundMessageListener {
   }
 
   async processMessage({ action, issueData, clockData }, { tab }) {
-    console.log(tab);
     const key = makeKey(issueData);
     switch (action) {
       case 'update':
