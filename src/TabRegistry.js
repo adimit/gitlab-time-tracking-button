@@ -1,3 +1,8 @@
+const makeKey = ({ instance, group, project, issue }) => `${instance}&${group}&${project}&${issue}`;
+const sendMessage = (browser, tabIds, message, content) => {
+  tabIds.forEach(tab => browser.tabs.sendMessage(tab, message, content));
+};
+
 export default class TabRegistry {
   constructor(browser) {
     this.browser = browser;
@@ -6,25 +11,37 @@ export default class TabRegistry {
   }
 
   update(tabId, issueData, clockData) {
-    // find all tabs for issue
-    // send update clock data to those tabs
-  }
-
-  getTabsForIssue(issueData, originalTab) {
-    // get all tabs containing this issueData
-    // remove originalTab from the set
+    sendMessage(this.browser, this.getTabsForIssue(issueData, tabId), 'update', clockData);
   }
 
   trash(tabId, issueData) {
-    // find all tabs for issue
-    // send trash message to those tabs
+    sendMessage(this.browser, this.getTabsForIssue(issueData, tabId), 'trash');
+  }
+
+  getTabsForIssue(issueData, originalTab) {
+    const key = makeKey(issueData);
+    const tabs = this.issues.get(key) || new Set();
+    const copy = new Set(tabs);
+    copy.delete(originalTab);
+    return copy;
   }
 
   registerTab({ tabId, issueData }) {
-    this.tabs.set(tabId, issueData);
+    const key = makeKey(issueData);
+    this.tabs.set(tabId, key);
+    const tabs = this.issues.get(key);
+
+    if (!tabs || tabs.size === 0) {
+      this.issues.set(key, new Set([tabId]));
+    } else {
+      tabs.add(tabId);
+    }
   }
 
   deregisterTab(tabId) {
-    this.tabs.delete(tabId);
+    const issueData = this.tabs.get(tabId);
+    if (issueData) {
+      this.issues.get(issueData).delete(tabId);
+    }
   }
 }
