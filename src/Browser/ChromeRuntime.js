@@ -1,6 +1,16 @@
 export default class Runtime {
   constructor(browser) {
     this.browser = browser;
+    this.onMessage = {
+      addListener: (f) => {
+        browser.runtime.onMessage.addListener(
+          (message, sender, sendResponse) => {
+            f(message, sender, sendResponse);
+            return true;
+          },
+        );
+      },
+    };
   }
 
   sendMessage(data) {
