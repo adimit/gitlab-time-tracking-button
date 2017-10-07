@@ -1,21 +1,7 @@
-
-const makeKey = ({ instance, group, project, issue }) => `${instance}&${group}&${project}&${issue}`;
-
 export default class TimeKeeper {
   constructor(browser) {
     this.browser = browser;
     this.clocks = {};
-  }
-
-  processMessage(message, sender) {
-    const { action, issueData, clockData } = message;
-    const key = makeKey(issueData);
-    switch (action) {
-      case 'update': return this.updateClock(key, clockData);
-      case 'trash': return this.trashClock(key);
-      case 'get': return this.giveClock(key);
-      default: throw Error(`Unknown action ${action}`);
-    }
   }
 
   async updateClock(key, clockData) {
