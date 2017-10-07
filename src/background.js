@@ -10,9 +10,6 @@ import defaultPreferences from './Options/Defaults';
 const browser = new Browser(chrome);
 const tabRegistry = new TabRegistry(browser);
 
-
-// TODO a storage listener
-
 browser.storage.local.getOrDefault('clocks', { clocks: {} }).then(({ clocks }) => {
   const timeKeeper = new TimeKeeper(browser, clocks);
   const listener = new BackgroundMessageListener(timeKeeper, tabRegistry);
