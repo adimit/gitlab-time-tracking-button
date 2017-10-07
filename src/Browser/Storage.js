@@ -35,11 +35,15 @@ export default class Storage {
    * @return {Promise} A promise with the result fetched from storage local or default result
    */
   async getOrDefault(items, defaultResult) {
+    console.log('calling getordefault');
     try {
       const result = await this.get(items);
+      console.log('storage result', result);
       if (Object.keys(result).length === 0) {
+        console.log('returning default result');
         return defaultResult;
       }
+      console.log('returning');
       return result;
     } catch (e) {
       return defaultResult;
