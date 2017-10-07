@@ -7,8 +7,8 @@
     "url": ""
   },
   "scripts": {
-    "build:firefox": "TARGET=firefox VERSION=\"$npm_package_version\" webpack && rm -f addon/manifest.js{,.map}",
-    "build:chromium": "TARGET=chromium VERSION=\"$npm_package_version\" webpack && rm -f addon/manifest.js{,.map}",
+    "build:firefox": "TARGET=firefox VERSION=\"$npm_package_version\" webpack && rm -f addon/manifest.js && find addon -name '*.map' -exec rm -f '{}' ';'",
+    "build:chromium": "TARGET=chromium VERSION=\"$npm_package_version\" webpack && rm -f addon/manifest.js && find addon -name '*.map' -exec rm -f '{}' ';'",
     "bundle": "web-ext -s ./addon -a . build --overwrite-dest",
     "clean": "rm -rf addon/*",
     "lint": "eslint src --ext .js,.json",
