@@ -1,40 +1,24 @@
-const defaultPreferences = {
-  allowConcurrentTimers: true,
+const update = async (preferences, browser) => {
+  await browser.storage.local.set({ preferences });
 };
 
 export default class Preferences {
-  constructor(browser) {
+  constructor(browser, preferences) {
     this.browser = browser;
-    this.allowConcurrentTimersCheckBox = document.getElementById('allow-concurrent-timers');
+    this.preferences = preferences;
   }
 
-  addListeners() {
-    this.allowConcurrentTimersCheckBox.onchange = async () => {
-      const preferences = await this.getPreferences();
-      preferences.allowConcurrentTimers = this.allowConcurrentTimersCheckBox.checked;
-      await this.setPreferences(preferences);
-    };
+  async setAllowConcurrentTimers(value) {
+    this.preferences.allowConcurrentTimers = value;
+    await update(this.preferences, this.browser);
   }
 
-  async getPreferences() {
-    const result = await this.browser.storage.local.getOrDefault(
-      'preferences',
-      { preferences: defaultPreferences },
-    );
-    return result.preferences;
+  getAllowConcurrentTimers() {
+    return this.preferences.allowConcurrentTimers;
   }
 
-  async setPreferences(preferences) {
-    await this.browser.storage.local.set({ preferences });
-  }
-
-  async restorePreferences() {
-    const preferences = await this.getPreferences();
-    this.allowConcurrentTimersCheckBox.checked = preferences.allowConcurrentTimers;
-  }
-
-  async start() {
-    await this.restorePreferences();
-    this.addListeners();
+  static async initialize(browser, defaults) {
+    const { preferences } = await browser.storage.local.getOrDefault('preferences', { preferences: defaults });
+    return new this(browser, preferences);
   }
 }

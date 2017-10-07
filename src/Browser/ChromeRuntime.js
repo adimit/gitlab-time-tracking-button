@@ -1,6 +1,8 @@
-export default class Runtime {
+import FirefoxRuntime from './FirefoxRuntime';
+
+export default class Runtime extends FirefoxRuntime {
   constructor(browser) {
-    this.browser = browser;
+    super(browser);
     this.onMessage = {
       addListener: (f) => {
         browser.runtime.onMessage.addListener(

@@ -6,6 +6,12 @@ export default class Runtime {
         browser.runtime.onMessage.addListener(f);
       },
     };
+
+    this.onInstalled = {
+      addListener: (f) => {
+        browser.runtime.onInstalled.addListener(f);
+      },
+    };
   }
 
   sendMessage(extensionId, data, options) {
