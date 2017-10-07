@@ -21,4 +21,12 @@ export default class Preferences {
     const { preferences } = await browser.storage.local.getOrDefault('preferences', { preferences: defaults });
     return new this(browser, preferences);
   }
+
+  updateStorage({ preferences }) {
+    if (preferences === undefined) {
+      return this;
+    }
+    this.preferences = preferences.newValue;
+    return this;
+  }
 }
