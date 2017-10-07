@@ -43,7 +43,7 @@ export default class ClockViewModel {
     this.clock.destroy();
     this.clock = clock;
     subscribeToClock(clock, this);
-    this.clockView.render(0);
+    this.clockView.render(clock.getTime());
   }
 
   getTime() {

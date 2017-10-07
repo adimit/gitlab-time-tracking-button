@@ -19,10 +19,10 @@ export default class Runtime {
     };
   }
 
-  sendMessage(data) {
+  sendMessage(extensionId, data, options) {
     const runtime = this.browser.runtime;
     return new Promise((resolve, reject) => {
-      runtime.sendMessage(undefined, data, undefined, (response) => {
+      runtime.sendMessage(extensionId, data, options, (response) => {
         if (!response && runtime.lastError) {
           reject(runtime.lastError);
         } else {
