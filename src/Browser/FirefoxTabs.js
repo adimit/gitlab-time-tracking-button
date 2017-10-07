@@ -1,9 +1,13 @@
-export default class Tabs {
+export default class FirefoxTabs {
   constructor(browser) {
     this.browser = browser;
     this.onUpdated = {
       addListener: f => browser.tabs.onUpdated.addListener(f),
     };
+  }
+
+  sendMessage(tabId, message, options) {
+    return this.browser.sendMessage(tabId, message, options);
   }
 
   executeScript(tabId, js) {
