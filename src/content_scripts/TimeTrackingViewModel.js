@@ -44,4 +44,14 @@ export default class TimeTrackingViewModel {
     this.buttonViewModel.render('stopped');
     await this.postOffice.updateClock(this.clockViewModel.getClock());
   }
+
+  async updateClockFromBackground(clock) {
+    this.clockViewModel.reset(clock);
+    this.buttonViewModel.render(this.clockViewModel.getState());
+  }
+
+  async trashClockFromBackground() {
+    this.clockViewModel.resetClock(new Clock());
+    this.buttonViewModel.render('fresh');
+  }
 }

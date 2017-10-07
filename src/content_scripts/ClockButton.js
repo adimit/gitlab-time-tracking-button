@@ -52,6 +52,14 @@ if (document.getElementById(clockContainerId) === null) {
       postOffice.onStart(() => timeTracker.start());
       postOffice.onStop(() => timeTracker.stop());
       postOffice.onTrash(() => timeTracker.trash());
+
+      browser.runtime.onMessage.addListener(({ message, ...data }) => {
+        switch (message) {
+          case 'trash': return timeTracker.trashClockFromBackground();
+          case 'update': return timeTracker.updateClockFromBackground(data.clockData);
+          default: throw new Error(`Unknown message from background: ${message}`);
+        }
+      });
     });
   });
 }
