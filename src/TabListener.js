@@ -25,7 +25,7 @@ export default class TabListener {
 
     if (group && project && issue) {
       this.insertAssetsInto(info.id);
-      fireEvent(this.handlers.onLoaded, info.id);
+      fireEvent(this.handlers.onLoaded, { tabId: info.id, issueData: parser.getAllData() });
     } else {
       fireEvent(this.handlers.onDestroyed, info.id);
     }
