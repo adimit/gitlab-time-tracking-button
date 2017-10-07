@@ -1,5 +1,7 @@
+import isFirefox from './UserAgent';
 import Tabs from './Browser/Tabs';
-import Runtime from './Browser/Runtime';
+import ChromeRuntime from './Browser/ChromeRuntime';
+import FirefoxRuntime from './Browser/FirefoxRuntime';
 import Permissions from './Browser/Permissions';
 import Storage from './Browser/Storage';
 
@@ -8,6 +10,9 @@ export default class Browser {
     this.tabs = new Tabs(browser);
     this.permissions = new Permissions(browser);
     this.storage = { local: new Storage(browser) };
-    this.runtime = new Runtime(browser);
+
+    this.runtime = isFirefox()
+      ? new FirefoxRuntime(browser)
+      : new ChromeRuntime(browser);
   }
 }
