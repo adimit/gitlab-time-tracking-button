@@ -7,11 +7,22 @@ export default class PostOffice {
     this.handlers = { start: [], stop: [], trash: [] };
   }
 
-  async updateClock(clockData) {
+  async start(clockData) {
     return this.browser.runtime.sendMessage(
       null,
       {
-        action: 'update',
+        action: 'start',
+        clockData,
+        issueData: this.issueData,
+      },
+    );
+  }
+
+  async stop(clockData) {
+    return this.browser.runtime.sendMessage(
+      null,
+      {
+        action: 'stop',
         clockData,
         issueData: this.issueData,
       },

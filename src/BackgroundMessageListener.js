@@ -6,7 +6,10 @@ export default class BackgroundMessageListener {
 
   async processMessage({ action, issueData, clockData }, { tab }) {
     switch (action) {
-      case 'update':
+      case 'start':
+        this.tabRegistry.update(tab.id, issueData, clockData);
+        return this.timeKeeper.updateClock(issueData, clockData);
+      case 'stop':
         this.tabRegistry.update(tab.id, issueData, clockData);
         return this.timeKeeper.updateClock(issueData, clockData);
       case 'trash':

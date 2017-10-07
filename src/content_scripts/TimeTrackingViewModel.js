@@ -30,7 +30,7 @@ export default class TimeTrackingViewModel {
   async start() {
     this.clockViewModel.start();
     this.buttonViewModel.render('running');
-    await this.postOffice.updateClock(this.clockViewModel.getClock());
+    await this.postOffice.start(this.clockViewModel.getClock());
   }
 
   async trash() {
@@ -42,7 +42,7 @@ export default class TimeTrackingViewModel {
   async stop() {
     this.clockViewModel.stop();
     this.buttonViewModel.render('stopped');
-    await this.postOffice.updateClock(this.clockViewModel.getClock());
+    await this.postOffice.stop(this.clockViewModel.getClock());
   }
 
   async updateClockFromBackground(clockData) {
