@@ -5,7 +5,6 @@ export default class PreferencesView {
   }
 
   async restorePreferences() {
-    console.log('restoring view', this.preferences);
     this.allowConcurrentTimersCheckBox.checked = this.preferences.getAllowConcurrentTimers();
   }
 

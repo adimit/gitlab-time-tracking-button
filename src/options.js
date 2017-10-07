@@ -9,6 +9,5 @@ new Instances(browser).start();
 
 (async () => {
   const preferences = await Preferences.initialize(browser, defaultPreferences);
-  console.log('initializing view', preferences);
   new PreferencesView(preferences).start();
 })();
