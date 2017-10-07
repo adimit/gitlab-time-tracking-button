@@ -34,12 +34,10 @@ export default class ButtonViewModel {
 
   start() {
     fireEvent(this.handlers.start, undefined);
-    this.buttonView.render('running');
   }
 
   stop() {
     fireEvent(this.handlers.stop, undefined);
-    this.buttonView.render('stopped');
   }
 
   save() {
@@ -48,11 +46,13 @@ export default class ButtonViewModel {
       onSuccess: () => buttonView.render('fresh'),
       onFailure: (error) => { console.error(error); buttonView.render('stopped'); }, // eslint-disable-line no-console
     });
-    this.buttonView.render('saving');
   }
 
   trash() {
     fireEvent(this.handlers.trash, undefined);
-    this.buttonView.render('fresh');
+  }
+
+  render(state) {
+    this.buttonView.render(state);
   }
 }
