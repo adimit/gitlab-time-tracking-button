@@ -17,7 +17,7 @@ const tabRegistry = new TabRegistry(browser);
 
   const tabListener = new TabListener(browser, instanceManager);
   const timeKeeper = new TimeKeeper(browser, clocks);
-  const listener = new BackgroundMessageListener(timeKeeper, tabRegistry, preferences);
+  const listener = new BackgroundMessageListener(browser, timeKeeper, tabRegistry, preferences);
 
   browser.runtime.onMessage.addListener(
     (message, sender) => listener.processMessage(message, sender),
