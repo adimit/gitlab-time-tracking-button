@@ -49,3 +49,10 @@ the `manifest.json`:
 ```
 npm run bundle
 ```
+
+## Graphics
+
+The terribly done logo is a bastardized version of the [Gitlab
+logo](https://about.gitlab.com/press/) with the clock icon from [Feather
+icons](https://feathericons.com). All icons on the actual time tracker are also
+from the Feather set.
