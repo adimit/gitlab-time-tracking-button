@@ -1,5 +1,5 @@
 const preferences = {
-  allowConcurrentTimers: true,
+  allowConcurrentTimers: false,
 };
 
 export default preferences;
