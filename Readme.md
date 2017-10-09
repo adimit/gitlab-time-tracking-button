@@ -43,7 +43,7 @@ npm run test
 ```
 
 To create a `.zip` file with the extension, created in as
-`./dist/gitlab-time-tracking-button-${version}.zip`, where `${version}` is in
+`./gitlab-time-tracking-button-${version}.zip`, where `${version}` is in
 the `manifest.json`:
 
 ```
